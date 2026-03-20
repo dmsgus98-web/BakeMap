@@ -132,48 +132,7 @@ html, body, [class*="css"] {
 /* 지도 */
 iframe { border-radius: 12px; }
 
-/* ══ 사이드바 닫혔을 때 열기 버튼 ══ */
-[data-testid="collapsedControl"] {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    opacity: 1 !important;
-    position: fixed !important;
-    left: 0; top: 50%;
-    transform: translateY(-50%);
-    width: 28px !important;
-    height: 56px !important;
-    z-index: 999 !important;
-    background: #FFFFFF !important;
-    border: 1.5px solid #E7E4DF !important;
-    border-left: none !important;
-    border-radius: 0 10px 10px 0 !important;
-    cursor: pointer !important;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.08) !important;
-    transition: background 0.2s, border-color 0.2s !important;
-}
-[data-testid="collapsedControl"]:hover {
-    background: #FEF5EE !important;
-    border-color: #B8622A !important;
-}
-/* Streamlit 기본 아이콘(햄버거/화살표) 숨기고 커스텀 화살표 표시 */
-[data-testid="collapsedControl"] svg { display: none !important; }
-[data-testid="collapsedControl"]::after {
-    content: '›';
-    font-size: 22px;
-    line-height: 1;
-    color: #B8622A;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 /* ══ 헤더 지역 선택 pill ══ */
-.region-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
-.region-pill-label { font-size: 11px; font-weight: 700; color: #A8A29E; letter-spacing: 0.08em; text-transform: uppercase; margin-right: 4px; }
-
-/* selectbox를 pill처럼 보이게 */
 div[data-testid="stSelectbox"] > label { display: none !important; }
 div[data-testid="stSelectbox"] > div > div {
     background: #FEF5EE !important;
@@ -198,9 +157,73 @@ div[data-testid="stSelectbox"] > div > div > div {
     display: flex !important;
     align-items: center !important;
 }
-/* 드롭다운 화살표 색상 */
 div[data-testid="stSelectbox"] svg { color: #B8622A !important; fill: #B8622A !important; }
 </style>
+""", unsafe_allow_html=True)
+
+# ── JS: 사이드바 닫혔을 때 항상 보이는 열기 버튼 ──
+st.markdown("""
+<div id="bm-btn-host"></div>
+<style>
+#bm-sidebar-open-btn {
+    position: fixed;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 28px; height: 56px;
+    background: #FFFFFF;
+    border: 1.5px solid #E7E4DF;
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    font-size: 22px; font-weight: 700; color: #B8622A;
+    cursor: pointer; z-index: 99999;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+    display: none;
+    align-items: center; justify-content: center;
+    transition: background .18s, border-color .18s;
+    padding: 0; line-height: 1;
+}
+#bm-sidebar-open-btn:hover {
+    background: #FEF5EE;
+    border-color: #B8622A;
+}
+</style>
+<script>
+(function() {
+    // 버튼 생성
+    var btn = document.createElement('button');
+    btn.id = 'bm-sidebar-open-btn';
+    btn.innerHTML = '&#8250;';
+    btn.title = '사이드바 열기';
+    document.body.appendChild(btn);
+
+    btn.addEventListener('click', function() {
+        // Streamlit collapsed control 버튼 탐색 후 클릭
+        var toggle =
+            document.querySelector('[data-testid="collapsedControl"] button') ||
+            document.querySelector('[data-testid="collapsedControl"]') ||
+            document.querySelector('button[aria-label="Open sidebar"]') ||
+            document.querySelector('section[data-testid="stSidebar"] ~ div button');
+        if (toggle) toggle.click();
+    });
+
+    function update() {
+        var sidebar = document.querySelector('[data-testid="stSidebar"]');
+        if (!sidebar) return;
+        // aria-expanded 또는 translateX로 열림/닫힘 판단
+        var style = window.getComputedStyle(sidebar);
+        var transform = style.transform || style.webkitTransform || '';
+        var isCollapsed = transform.includes('matrix') && transform !== 'none'
+            ? parseFloat(transform.split(',')[4]) < -50
+            : sidebar.getBoundingClientRect().left < -100;
+
+        btn.style.display = isCollapsed ? 'flex' : 'none';
+    }
+
+    // 반복 감지 (Streamlit 리렌더링 대응)
+    setInterval(update, 400);
+    update();
+})();
+</script>
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
@@ -290,6 +313,13 @@ BDGCLS = {"safe": "bdg-safe", "ok": "bdg-ok", "caution": "bdg-caution", "danger"
 GLABEL = {"safe": "유망 ↑", "ok": "보통", "caution": "주의 ↓", "danger": "고위험 ✕"}
 
 # ─────────────────────────────────────────────
+# session_state 초기화
+# ─────────────────────────────────────────────
+region_list = df["지역"].tolist()
+if "sel" not in st.session_state:
+    st.session_state["sel"] = region_list[0]
+
+# ─────────────────────────────────────────────
 # 사이드바
 # ─────────────────────────────────────────────
 with st.sidebar:
@@ -301,14 +331,15 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     st.markdown('<div class="slabel" style="padding:0 2px;">분석 지역 선택</div>', unsafe_allow_html=True)
-    selected = st.selectbox("지역", df["지역"].tolist(), label_visibility="collapsed")
+    # key="sel" → session_state["sel"]과 자동 연결
+    st.selectbox("지역", region_list, key="sel", label_visibility="collapsed")
 
+    selected = st.session_state["sel"]
     info = df[df["지역"] == selected].iloc[0]
     cls  = str(info["등급cls"])
     srs  = float(info["score"])
 
     st.markdown('<hr class="hr">', unsafe_allow_html=True)
-
     items_html = "".join(
         f'<div class="srow"><span class="skey">{k}</span>'
         f'<span style="font-weight:700;color:#1C1917;">{v}</span></div>'
@@ -339,10 +370,8 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# 본문 데이터
+# 본문 헤더 + 인라인 지역 선택
 # ─────────────────────────────────────────────
-
-# 헤더 + 인라인 지역 선택
 st.markdown('<div class="eyebrow">상권 분석 리포트 · 2019–2025</div>', unsafe_allow_html=True)
 
 h_col, sel_col = st.columns([3, 1])
@@ -353,19 +382,16 @@ with h_col:
     """, unsafe_allow_html=True)
 with sel_col:
     st.markdown('<div style="padding-top:6px;"></div>', unsafe_allow_html=True)
-    inline_selected = st.selectbox(
-        "지역",
-        df["지역"].tolist(),
-        index=df["지역"].tolist().index(selected),
-        key="inline_region",
+    # 인라인 선택은 별도 key 사용, on_change로 sel에 반영
+    def _sync_inline():
+        st.session_state["sel"] = st.session_state["sel_inline"]
+    st.selectbox(
+        "지역", region_list,
+        index=region_list.index(selected),
+        key="sel_inline",
+        on_change=_sync_inline,
         label_visibility="collapsed",
     )
-    # 인라인 선택이 사이드바 선택과 다르면 동기화
-    if inline_selected != selected:
-        selected = inline_selected
-        info = df[df["지역"] == selected].iloc[0]
-        cls  = str(info["등급cls"])
-        srs  = float(info["score"])
 
 rt = trend_df[trend_df["지역"] == selected].sort_values("연도").reset_index(drop=True)
 latest = rt[rt["연도"] == 2025].iloc[0]
