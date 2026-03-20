@@ -16,315 +16,180 @@ st.set_page_config(
 )
 
 # ══════════════════════════════════════════════
-#  전역 스타일
+#  전역 스타일 — 밝고 따뜻한 웜 테마
 # ══════════════════════════════════════════════
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
-
-/* ── 기본 리셋 ── */
-*, *::before, *::after { box-sizing: border-box; }
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Lora:wght@600;700&display=swap');
 
 html, body, [class*="css"] {
     font-family: 'Noto Sans KR', sans-serif;
-    color: #E8E4DC;
+    color: #1C1917;
 }
 
-/* ── 배경 ── */
-.stApp {
-    background: #0D1117;
-    background-image:
-        radial-gradient(ellipse 80% 50% at 10% 0%, rgba(212,175,55,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(74,144,226,0.05) 0%, transparent 60%);
-}
+/* ── 전체 배경 ── */
+.stApp { background: #FAFAF8; }
 
 /* ── 사이드바 ── */
 [data-testid="stSidebar"] {
-    background: #0A0E13 !important;
-    border-right: 1px solid rgba(212,175,55,0.12);
+    background: #FFFFFF !important;
+    border-right: 1px solid #E7E5E0;
 }
-[data-testid="stSidebar"] > div { padding-top: 0 !important; }
 
-/* ── 헤더/푸터 숨김 ── */
+/* ── 크롬 숨김 ── */
 #MainMenu, header, footer { visibility: hidden; }
-.block-container { padding-top: 2rem; padding-bottom: 2rem; }
+.block-container { padding-top: 2.2rem; padding-bottom: 2rem; }
 
-/* ── 스크롤바 ── */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0D1117; }
-::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.3); border-radius: 2px; }
-
-/* ══ 컴포넌트 ══ */
-
-/* 워드마크 */
+/* ══ 워드마크 ══ */
 .wordmark {
-    padding: 28px 24px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    margin-bottom: 24px;
+    padding: 24px 20px 18px;
+    border-bottom: 1px solid #F0EDE8;
+    margin-bottom: 20px;
 }
 .wordmark-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    color: #D4AF37;
-    letter-spacing: 0.02em;
-    line-height: 1;
-}
-.wordmark-sub {
-    font-size: 10px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.3);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-top: 4px;
-}
-
-/* 섹션 레이블 */
-.sidebar-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.28);
-    padding: 0 24px;
-    margin-bottom: 8px;
-}
-
-/* 페이지 헤더 */
-.page-header {
-    margin-bottom: 28px;
-}
-.page-eyebrow {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #D4AF37;
-    margin-bottom: 8px;
-}
-.page-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 36px;
-    color: #F0EAD6;
-    line-height: 1.15;
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    color: #C2793E;
     letter-spacing: -0.01em;
 }
-.page-title span {
-    color: #D4AF37;
-}
-.page-desc {
-    font-size: 13px;
-    color: rgba(255,255,255,0.38);
-    margin-top: 8px;
-    font-weight: 400;
-    letter-spacing: 0.01em;
+.wordmark-sub {
+    font-size: 10px; font-weight: 600; color: #A8A29E;
+    letter-spacing: 0.1em; text-transform: uppercase; margin-top: 3px;
 }
 
-/* KPI 카드 */
-.kpi-grid { display: flex; gap: 12px; margin-bottom: 20px; }
+/* ══ 페이지 헤더 ══ */
+.page-eyebrow {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: #C2793E; margin-bottom: 6px;
+}
+.page-title {
+    font-family: 'Lora', serif;
+    font-size: 30px; color: #1C1917; line-height: 1.2; margin-bottom: 6px;
+}
+.page-title em { color: #C2793E; font-style: normal; }
+.page-desc { font-size: 13px; color: #78716C; margin-bottom: 24px; }
+
+/* ══ KPI 카드 ══ */
+.kpi-row { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
 .kpi-card {
-    flex: 1;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.07);
+    flex: 1; min-width: 120px;
+    background: #FFFFFF;
+    border: 1px solid #E7E5E0;
     border-radius: 14px;
-    padding: 18px 20px 16px;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.2s;
+    padding: 16px 18px 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
-.kpi-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #D4AF37, transparent);
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-.kpi-card:hover { border-color: rgba(212,175,55,0.2); }
-.kpi-card:hover::before { opacity: 1; }
-.kpi-card.accent {
-    background: rgba(212,175,55,0.07);
-    border-color: rgba(212,175,55,0.2);
-}
-.kpi-card.accent::before { opacity: 1; }
-
+.kpi-card.hl { border-color: #C2793E; background: #FFF7F0; }
 .kpi-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.35);
-    margin-bottom: 10px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.11em;
+    text-transform: uppercase; color: #A8A29E; margin-bottom: 8px;
 }
-.kpi-value {
-    font-family: 'DM Serif Display', serif;
-    font-size: 30px;
-    color: #F0EAD6;
-    line-height: 1;
-    letter-spacing: -0.02em;
-}
-.kpi-value.gold { color: #D4AF37; }
-.kpi-delta {
-    font-size: 11px;
-    font-weight: 500;
-    margin-top: 6px;
-    color: rgba(255,255,255,0.3);
-}
-.kpi-delta.up   { color: #4ADE80; }
-.kpi-delta.down { color: #F87171; }
+.kpi-value { font-family: 'Lora', serif; font-size: 28px; color: #1C1917; line-height: 1; }
+.kpi-value.amber { color: #C2793E; }
+.kpi-delta { font-size: 11px; font-weight: 500; color: #A8A29E; margin-top: 5px; }
+.kpi-delta.up   { color: #16A34A; }
+.kpi-delta.down { color: #DC2626; }
 
-/* 위험도 배지 */
-.risk-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 12px;
-    border-radius: 100px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
+/* ══ 위험도 배지 ══ */
+.badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 11px; border-radius: 100px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.02em;
 }
-.risk-safe    { background: rgba(74,222,128,0.12);  color: #4ADE80; border: 1px solid rgba(74,222,128,0.2); }
-.risk-ok      { background: rgba(250,204,21,0.10);  color: #FACC15; border: 1px solid rgba(250,204,21,0.2); }
-.risk-caution { background: rgba(251,146,60,0.10);  color: #FB923C; border: 1px solid rgba(251,146,60,0.2); }
-.risk-danger  { background: rgba(248,113,113,0.12); color: #F87171; border: 1px solid rgba(248,113,113,0.2); }
+.b-safe    { background: #F0FDF4; color: #15803D; border: 1px solid #BBF7D0; }
+.b-ok      { background: #FEFCE8; color: #A16207; border: 1px solid #FDE68A; }
+.b-caution { background: #FFF7ED; color: #C2410C; border: 1px solid #FDBA74; }
+.b-danger  { background: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; }
 
-/* 카드 래퍼 */
-.card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 16px;
-    padding: 22px 24px;
-    margin-bottom: 14px;
+/* ══ 섹션 레이블 ══ */
+.sec-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
+    color: #A8A29E; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 7px;
 }
-.card-title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.card-title::before {
-    content: '';
-    display: inline-block;
-    width: 3px; height: 12px;
-    background: #D4AF37;
-    border-radius: 2px;
+.sec-label::before {
+    content: ''; display: inline-block;
+    width: 3px; height: 11px; background: #C2793E; border-radius: 2px;
 }
 
-/* 구분선 */
-.divider {
-    border: none;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    margin: 20px 0;
+/* ══ 인사이트 ══ */
+.insight { border-radius: 10px; padding: 13px 15px; font-size: 13px; line-height: 1.65; }
+.i-good  { background: #F0FDF4; border-left: 3px solid #22C55E; color: #14532D; }
+.i-warn  { background: #FFF7ED; border-left: 3px solid #F97316; color: #7C2D12; }
+.i-neut  { background: #FEFCE8; border-left: 3px solid #EAB308; color: #713F12; }
+
+/* ══ 구분선 ══ */
+.hr { border: none; border-top: 1px solid #E7E5E0; margin: 18px 0; }
+
+/* ══ 통계 행 ══ */
+.stat-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 0; border-bottom: 1px solid #F0EDE8; font-size: 13px;
 }
+.stat-row:last-child { border-bottom: none; }
+.stat-key { color: #78716C; }
 
-/* 지역 행 */
-.region-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    cursor: pointer;
-    transition: background 0.15s;
-}
-.region-row:last-child { border-bottom: none; }
-.region-name { font-size: 14px; font-weight: 600; color: #E8E4DC; }
-.region-meta { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 2px; }
-
-/* 인사이트 박스 */
-.insight {
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-size: 13px;
-    line-height: 1.65;
-    font-weight: 400;
-}
-.insight-warn   { background: rgba(251,146,60,0.08); border-left: 3px solid #FB923C; color: #FED7AA; }
-.insight-good   { background: rgba(74,222,128,0.08); border-left: 3px solid #4ADE80; color: #BBF7D0; }
-.insight-neutral{ background: rgba(250,204,21,0.07); border-left: 3px solid #FACC15; color: #FEF08A; }
-
-/* 데이터 테이블 */
-.stDataFrame { border-radius: 12px; overflow: hidden; }
-[data-testid="stDataFrameResizable"] { border: 1px solid rgba(255,255,255,0.07) !important; border-radius: 12px !important; }
-
-/* 버튼 */
+/* ══ 버튼 ══ */
 .stButton > button {
-    background: #D4AF37 !important;
-    color: #0D1117 !important;
-    border: none !important;
-    border-radius: 10px !important;
+    background: #C2793E !important; color: #FFFFFF !important;
+    border: none !important; border-radius: 10px !important;
     font-family: 'Noto Sans KR', sans-serif !important;
-    font-weight: 700 !important;
-    font-size: 13px !important;
-    letter-spacing: 0.02em !important;
-    padding: 10px 24px !important;
-    transition: opacity 0.15s !important;
+    font-weight: 700 !important; font-size: 13px !important;
+    padding: 10px 22px !important;
+    box-shadow: 0 2px 6px rgba(194,121,62,0.3) !important;
 }
-.stButton > button:hover { opacity: 0.85 !important; }
+.stButton > button:hover { opacity: 0.88 !important; }
 
-/* selectbox */
-.stSelectbox > div > div {
-    background: rgba(255,255,255,0.04) !important;
-    border: 1px solid rgba(255,255,255,0.1) !important;
-    border-radius: 10px !important;
-    color: #E8E4DC !important;
-}
-
-/* Folium 지도 테두리 */
-iframe { border-radius: 14px; }
-
-/* 탭 */
+/* ══ 탭 ══ */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 4px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 10px;
-    padding: 4px;
-    border: 1px solid rgba(255,255,255,0.06);
+    gap: 0; background: #F0EDE8; border-radius: 10px;
+    padding: 3px; border: none;
 }
 .stTabs [data-baseweb="tab"] {
-    border-radius: 8px !important;
-    padding: 8px 18px !important;
-    font-size: 12px !important;
-    font-weight: 600 !important;
+    border-radius: 8px !important; padding: 7px 16px !important;
+    font-size: 12px !important; font-weight: 600 !important;
     font-family: 'Noto Sans KR', sans-serif !important;
-    color: rgba(255,255,255,0.45) !important;
-    letter-spacing: 0.03em !important;
+    color: #78716C !important; letter-spacing: 0.02em !important;
 }
 .stTabs [aria-selected="true"] {
-    background: #D4AF37 !important;
-    color: #0D1117 !important;
+    background: #FFFFFF !important; color: #1C1917 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08) !important;
 }
+
+/* ══ selectbox ══ */
+.stSelectbox > div > div {
+    background: #FFFFFF !important; border: 1px solid #E7E5E0 !important;
+    border-radius: 10px !important; color: #1C1917 !important;
+}
+
+/* ══ 지도 iframe ══ */
+iframe { border-radius: 12px; border: 1px solid #E7E5E0; }
 </style>
 """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════
-#  Plotly 다크 테마 기본값
+#  Plotly 기본 레이아웃
 # ══════════════════════════════════════════════
-BASE_LAYOUT = dict(
+BASE = dict(
     font_family="Noto Sans KR, sans-serif",
-    font_color="#E8E4DC",
+    font_color="#1C1917",
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
     margin=dict(l=0, r=0, t=28, b=0),
     legend=dict(
         orientation="h", yanchor="bottom", y=1.02,
-        xanchor="right", x=1,
-        font_size=11, bgcolor="rgba(0,0,0,0)",
+        xanchor="right", x=1, font_size=11, bgcolor="rgba(0,0,0,0)",
     ),
-    xaxis=dict(gridcolor="rgba(255,255,255,0.05)", tickfont_size=11, showline=False),
-    yaxis=dict(gridcolor="rgba(255,255,255,0.05)", tickfont_size=11, showline=False),
+    xaxis=dict(gridcolor="#F0EDE8", tickfont_size=11, showline=False),
+    yaxis=dict(gridcolor="#F0EDE8", tickfont_size=11, showline=False),
 )
-C_GOLD  = "#D4AF37"
-C_BLUE  = "#4A90E2"
-C_GREEN = "#4ADE80"
-C_RED   = "#F87171"
-C_DIM   = "rgba(255,255,255,0.12)"
+
+C_AMBER  = "#C2793E"
+C_BLUE   = "#3B82F6"
+C_RED    = "#EF4444"
+C_GREEN  = "#22C55E"
+C_YELLOW = "#EAB308"
+C_MUTED  = "#D6D3CE"
 
 # ══════════════════════════════════════════════
 #  데이터
@@ -332,51 +197,58 @@ C_DIM   = "rgba(255,255,255,0.12)"
 @st.cache_data
 def load_data():
     regions = {
-        "연남동":  {"score": 71.5, "stores": 20, "open": 4,  "close": 6,  "lat": 37.561, "lng": 126.924},
-        "성수동":  {"score": 32.1, "stores": 35, "open": 12, "close": 2,  "lat": 37.544, "lng": 127.056},
-        "한남동":  {"score": 45.8, "stores": 18, "open": 5,  "close": 4,  "lat": 37.535, "lng": 127.001},
-        "방배동":  {"score": 55.2, "stores": 22, "open": 3,  "close": 5,  "lat": 37.483, "lng": 126.991},
-        "망원동":  {"score": 28.4, "stores": 25, "open": 8,  "close": 1,  "lat": 37.556, "lng": 126.901},
+        "연남동": {"score": 71.5, "stores": 20, "open": 4,  "close": 6,  "lat": 37.561, "lng": 126.924},
+        "성수동": {"score": 32.1, "stores": 35, "open": 12, "close": 2,  "lat": 37.544, "lng": 127.056},
+        "한남동": {"score": 45.8, "stores": 18, "open": 5,  "close": 4,  "lat": 37.535, "lng": 127.001},
+        "방배동": {"score": 55.2, "stores": 22, "open": 3,  "close": 5,  "lat": 37.483, "lng": 126.991},
+        "망원동": {"score": 28.4, "stores": 25, "open": 8,  "close": 1,  "lat": 37.556, "lng": 126.901},
     }
     rows = []
     for name, d in regions.items():
         s = d["score"]
-        if s >= 65:   grade, cls = "고위험", "danger"
+        if   s >= 65: grade, cls = "고위험", "danger"
         elif s >= 50: grade, cls = "주의",   "caution"
         elif s >= 35: grade, cls = "보통",   "ok"
         else:         grade, cls = "유망",   "safe"
-        rows.append({**d, "지역": name, "등급": grade, "등급cls": cls,
-                     "생존율": round(1 - d["close"] / max(d["open"], 1), 2)})
+        rows.append({
+            **d, "지역": name, "등급": grade, "등급cls": cls,
+            "생존율": round(1 - d["close"] / max(d["open"], 1), 2),
+        })
     return pd.DataFrame(rows)
+
 
 @st.cache_data
 def load_trend():
     np.random.seed(7)
-    years = list(range(2019, 2026))
     trends = {
-        "연남동":  {"base_o": 8,  "base_c": 5,  "dir": "decline"},
-        "성수동":  {"base_o": 6,  "base_c": 2,  "dir": "growth"},
-        "한남동":  {"base_o": 6,  "base_c": 4,  "dir": "stable"},
-        "방배동":  {"base_o": 5,  "base_c": 4,  "dir": "stable"},
-        "망원동":  {"base_o": 7,  "base_c": 1,  "dir": "growth"},
+        "연남동": {"base_o": 8,  "base_c": 5,  "dir": "decline"},
+        "성수동": {"base_o": 6,  "base_c": 2,  "dir": "growth"},
+        "한남동": {"base_o": 6,  "base_c": 4,  "dir": "stable"},
+        "방배동": {"base_o": 5,  "base_c": 4,  "dir": "stable"},
+        "망원동": {"base_o": 7,  "base_c": 1,  "dir": "growth"},
     }
     rows = []
     for region, t in trends.items():
-        for i, yr in enumerate(years):
+        for i, yr in enumerate(range(2019, 2026)):
             if t["dir"] == "growth":
-                o = max(1, int(t["base_o"] + i*1.5 + np.random.randn()*1.2))
-                c = max(0, int(t["base_c"] + i*0.3 + np.random.randn()*0.8))
+                o = max(1, int(t["base_o"] + i * 1.5 + np.random.randn() * 1.2))
+                c = max(0, int(t["base_c"] + i * 0.3 + np.random.randn() * 0.8))
             elif t["dir"] == "decline":
-                o = max(1, int(t["base_o"] - i*0.6 + np.random.randn()*1.2))
-                c = max(0, int(t["base_c"] + i*0.8 + np.random.randn()*0.8))
+                o = max(1, int(t["base_o"] - i * 0.6 + np.random.randn() * 1.2))
+                c = max(0, int(t["base_c"] + i * 0.8 + np.random.randn() * 0.8))
             else:
-                o = max(1, int(t["base_o"] + np.random.randn()*1.5))
-                c = max(0, int(t["base_c"] + np.random.randn()*1.0))
+                o = max(1, int(t["base_o"] + np.random.randn() * 1.5))
+                c = max(0, int(t["base_c"] + np.random.randn() * 1.0))
             rows.append({"지역": region, "연도": yr, "개업": o, "폐업": c})
     return pd.DataFrame(rows)
 
-df = load_data()
+
+df       = load_data()
 trend_df = load_trend()
+
+COLOR_MAP   = {"safe": C_GREEN, "ok": C_YELLOW, "caution": C_AMBER, "danger": C_RED}
+BADGE_CLS   = {"safe": "b-safe", "ok": "b-ok", "caution": "b-caution", "danger": "b-danger"}
+GRADE_LABEL = {"safe": "유망 ↑", "ok": "보통", "caution": "주의 ↓", "danger": "고위험 ✕"}
 
 # ══════════════════════════════════════════════
 #  사이드바
@@ -385,365 +257,349 @@ with st.sidebar:
     st.markdown("""
     <div class="wordmark">
         <div class="wordmark-title">🥐 BakeMap</div>
-        <div class="wordmark-sub">베이커리 상권 분석 플랫폼</div>
+        <div class="wordmark-sub">베이커리 상권 분석</div>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown('<div class="sidebar-label">분석 지역</div>', unsafe_allow_html=True)
-    selected = st.selectbox("지역 선택", df["지역"].tolist(), label_visibility="collapsed")
+    st.markdown('<div class="sec-label" style="padding:0 2px;">분석 지역 선택</div>', unsafe_allow_html=True)
+    selected = st.selectbox("지역", df["지역"].tolist(), label_visibility="collapsed")
 
-    st.markdown('<hr class="divider">', unsafe_allow_html=True)
+    st.markdown('<hr class="hr">', unsafe_allow_html=True)
 
     info = df[df["지역"] == selected].iloc[0]
     cls  = info["등급cls"]
-    badge_map = {"safe": "risk-safe", "ok": "risk-ok", "caution": "risk-caution", "danger": "risk-danger"}
-    grade_map = {"safe": "유망 ↑", "ok": "보통", "caution": "주의 ↓", "danger": "고위험 ✕"}
 
+    stat_items = [
+        ("SRS 점수",    f"{info['score']:.1f} / 100"),
+        ("현재 매장",   f"{info['stores']}개"),
+        ("최근 개업",   f"{info['open']}건"),
+        ("최근 폐업",   f"{info['close']}건"),
+        ("생존율 추정", f"{int(info['생존율']*100)}%"),
+    ]
+    rows_html = "".join(
+        f'<div class="stat-row">'
+        f'<span class="stat-key">{k}</span>'
+        f'<span style="font-weight:700;color:#1C1917;">{v}</span>'
+        f'</div>'
+        for k, v in stat_items
+    )
     st.markdown(f"""
-    <div style="padding: 0 4px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;
-                    color:rgba(255,255,255,0.28);margin-bottom:12px;">선택 지역 요약</div>
-        <div style="font-size:22px;font-family:'DM Serif Display',serif;color:#F0EAD6;margin-bottom:10px;">
-            {selected}
-        </div>
-        <span class="risk-badge {badge_map[cls]}">{grade_map[cls]}</span>
-        <div style="margin-top:16px;display:grid;gap:10px;">
-            {"".join([
-                f'<div style="display:flex;justify-content:space-between;font-size:12px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">'
-                f'<span style="color:rgba(255,255,255,0.35);">{k}</span>'
-                f'<span style="color:#E8E4DC;font-weight:600;">{v}</span></div>'
-                for k, v in [
-                    ("창업 위험도 (SRS)", f"{info['score']:.1f}점"),
-                    ("현재 매장 수", f"{info['stores']}개"),
-                    ("최근 개업", f"{info['open']}건"),
-                    ("최근 폐업", f"{info['close']}건"),
-                    ("생존율 추정", f"{int(info['생존율']*100)}%"),
-                ]
-            ])}
-        </div>
+    <div style="padding:0 2px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.11em;text-transform:uppercase;
+                    color:#A8A29E;margin-bottom:10px;">선택 지역 요약</div>
+        <div style="font-family:'Lora',serif;font-size:20px;color:#1C1917;margin-bottom:8px;">{selected}</div>
+        <span class="badge {BADGE_CLS[cls]}">{GRADE_LABEL[cls]}</span>
+        <div style="margin-top:14px;">{rows_html}</div>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown('<hr class="divider">', unsafe_allow_html=True)
+    st.markdown('<hr class="hr">', unsafe_allow_html=True)
     st.markdown("""
-    <div style="font-size:10px;color:rgba(255,255,255,0.2);line-height:1.8;padding:0 4px;">
-    데이터: 서울 열린데이터 광장<br>
-    서울시 제과점영업 인허가 정보<br>
-    ※ 데모 모의 데이터
+    <div style="font-size:11px;color:#C0B9B3;line-height:1.8;">
+    출처: 서울 열린데이터 광장<br>서울시 제과점영업 인허가 정보<br>
+    <span style="color:#D6D3CE;">※ 데모 모의 데이터</span>
     </div>
     """, unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════
-#  메인 콘텐츠
+#  본문 데이터 준비
 # ══════════════════════════════════════════════
 region_trend = trend_df[trend_df["지역"] == selected].sort_values("연도")
 latest = region_trend[region_trend["연도"] == 2025].iloc[0]
 prev   = region_trend[region_trend["연도"] == 2024].iloc[0]
-open_delta  = int(latest["개업"] - prev["개업"])
-close_delta = int(latest["폐업"] - prev["폐업"])
-net = int(latest["개업"] - latest["폐업"])
+open_d  = int(latest["개업"] - prev["개업"])
+close_d = int(latest["폐업"] - prev["폐업"])
+net     = int(latest["개업"] - latest["폐업"])
+srs     = float(info["score"])
 
-# 헤더
+# ── 페이지 헤더 ──
 st.markdown(f"""
-<div class="page-header">
-    <div class="page-eyebrow">상권 분석 리포트</div>
-    <div class="page-title">{selected} <span>베이커리 시장</span></div>
-    <div class="page-desc">서울시 제과점영업 인허가 공공데이터 기반 · 2019 – 2025</div>
-</div>
+<div class="page-eyebrow">상권 분석 리포트 · 2019–2025</div>
+<div class="page-title">{selected} <em>베이커리 시장</em></div>
+<div class="page-desc">서울시 제과점영업 인허가 공공데이터 기반 분석</div>
 """, unsafe_allow_html=True)
 
 # ── KPI 카드 ──
-d_open  = f"{'▲' if open_delta >= 0 else '▼'} {abs(open_delta)} 전년 대비"
-d_close = f"{'▲' if close_delta >= 0 else '▼'} {abs(close_delta)} 전년 대비"
-d_net_cls = "up" if net >= 0 else "down"
-
-srs = info["score"]
-srs_cls_map = {"safe": "risk-safe", "ok": "risk-ok", "caution": "risk-caution", "danger": "risk-danger"}
-srs_badge = f'<span class="risk-badge {srs_cls_map[cls]}">{grade_map[cls]}</span>'
+od_cls  = "up"   if open_d  >= 0 else "down"
+cd_cls  = "down" if close_d >  0 else "up"
+net_cls = "up"   if net     >= 0 else "down"
 
 st.markdown(f"""
-<div class="kpi-grid">
-    <div class="kpi-card accent">
-        <div class="kpi-label">창업 위험도 SRS</div>
-        <div class="kpi-value gold">{srs:.1f}<span style="font-size:16px;font-weight:400;color:rgba(212,175,55,0.6);">/100</span></div>
-        <div style="margin-top:8px;">{srs_badge}</div>
-    </div>
-    <div class="kpi-card">
-        <div class="kpi-label">현재 매장 수</div>
-        <div class="kpi-value">{info['stores']}</div>
-        <div class="kpi-delta">영업 중인 제과·베이커리</div>
-    </div>
-    <div class="kpi-card">
-        <div class="kpi-label">최근 개업</div>
-        <div class="kpi-value">{int(latest['개업'])}</div>
-        <div class="kpi-delta {'up' if open_delta >= 0 else 'down'}">{d_open}</div>
-    </div>
-    <div class="kpi-card">
-        <div class="kpi-label">최근 폐업</div>
-        <div class="kpi-value">{int(latest['폐업'])}</div>
-        <div class="kpi-delta {'down' if close_delta > 0 else 'up'}">{d_close}</div>
-    </div>
-    <div class="kpi-card">
-        <div class="kpi-label">순 증감</div>
-        <div class="kpi-value {'gold' if net > 0 else ''}">{'+' if net >= 0 else ''}{net}</div>
-        <div class="kpi-delta {d_net_cls}">개업 − 폐업</div>
-    </div>
+<div class="kpi-row">
+  <div class="kpi-card hl">
+    <div class="kpi-label">창업 위험도 SRS</div>
+    <div class="kpi-value amber">{srs:.1f}<span style="font-size:15px;color:#C2793E;opacity:.6;"> /100</span></div>
+    <div style="margin-top:8px;"><span class="badge {BADGE_CLS[cls]}">{GRADE_LABEL[cls]}</span></div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">현재 매장 수</div>
+    <div class="kpi-value">{info['stores']}</div>
+    <div class="kpi-delta">영업 중인 제과·베이커리</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">최근 개업</div>
+    <div class="kpi-value">{int(latest['개업'])}</div>
+    <div class="kpi-delta {od_cls}">{'▲' if open_d>=0 else '▼'} {abs(open_d)} 전년 대비</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">최근 폐업</div>
+    <div class="kpi-value">{int(latest['폐업'])}</div>
+    <div class="kpi-delta {cd_cls}">{'▲' if close_d>=0 else '▼'} {abs(close_d)} 전년 대비</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">순 증감</div>
+    <div class="kpi-value">{'+' if net>=0 else ''}{net}</div>
+    <div class="kpi-delta {net_cls}">개업 − 폐업</div>
+  </div>
 </div>
 """, unsafe_allow_html=True)
 
-# ── 탭 ──
+# ══════════════════════════════════════════════
+#  탭
+# ══════════════════════════════════════════════
 tab1, tab2, tab3 = st.tabs(["  지도 & 분포  ", "  개·폐업 추이  ", "  전체 상권 비교  "])
 
-# ══ TAB 1: 지도 ══
+# ── TAB 1: 지도 ──────────────────────────────
 with tab1:
-    left, right = st.columns([3, 2], gap="large")
+    col_map, col_info = st.columns([3, 2], gap="large")
 
-    with left:
-        st.markdown('<div class="card-title">지역별 상권 지도</div>', unsafe_allow_html=True)
-        m = folium.Map(
-            location=[37.535, 126.98],
-            zoom_start=12,
-            tiles="CartoDB dark_matter",
-        )
-        color_map = {"safe": "#4ADE80", "ok": "#FACC15", "caution": "#FB923C", "danger": "#F87171"}
+    with col_map:
+        st.markdown('<div class="sec-label">지역별 상권 지도</div>', unsafe_allow_html=True)
+        m = folium.Map(location=[37.530, 126.980], zoom_start=12, tiles="cartodbpositron")
         for _, row in df.iterrows():
-            is_selected = row["지역"] == selected
-            c = color_map[row["등급cls"]]
+            is_sel = row["지역"] == selected
+            c = COLOR_MAP[row["등급cls"]]
             folium.CircleMarker(
                 location=[row["lat"], row["lng"]],
-                radius=row["stores"] * 0.35 + (6 if is_selected else 4),
-                color=c,
-                fill=True,
-                fill_color=c,
-                fill_opacity=0.85 if is_selected else 0.5,
-                weight=3 if is_selected else 1,
+                radius=row["stores"] * 0.35 + (8 if is_sel else 5),
+                color=c, fill=True, fill_color=c,
+                fill_opacity=0.85 if is_sel else 0.45,
+                weight=3 if is_sel else 1.5,
                 tooltip=folium.Tooltip(
-                    f"<b style='font-size:14px'>{row['지역']}</b><br>"
-                    f"SRS: {row['score']}점 &nbsp;|&nbsp; {row['등급']}<br>"
-                    f"매장 {row['stores']}개 · 개업 {row['open']} / 폐업 {row['close']}",
-                    style="font-family:'Noto Sans KR',sans-serif;font-size:13px;"
+                    f"<b>{row['지역']}</b> · SRS {row['score']}점 ({row['등급']})<br>"
+                    f"매장 {row['stores']}개 / 개업 {row['open']} / 폐업 {row['close']}",
+                    style="font-family:'Noto Sans KR',sans-serif;font-size:12px;"
                 ),
             ).add_to(m)
+        st_folium(m, width="100%", height=400, key="main_map")
 
-            if is_selected:
-                folium.Marker(
-                    location=[row["lat"] + 0.003, row["lng"]],
-                    icon=folium.DivIcon(
-                        html=f'<div style="font-family:Noto Sans KR,sans-serif;font-size:12px;font-weight:700;color:{c};white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,0.8);">{row["지역"]}</div>',
-                        icon_size=(80, 20), icon_anchor=(40, 0),
-                    )
-                ).add_to(m)
-
-        st_folium(m, width="100%", height=420, key="map_v2")
-
-    with right:
-        st.markdown('<div class="card-title">SRS 점수 분포</div>', unsafe_allow_html=True)
-
-        df_sorted = df.sort_values("score")
-        bar_colors = [color_map[c] + "CC" if r != selected else color_map[c] for r, c in zip(df_sorted["지역"], df_sorted["등급cls"])]
-
-        fig_bar = go.Figure(go.Bar(
-            x=df_sorted["score"],
-            y=df_sorted["지역"],
+    with col_info:
+        st.markdown('<div class="sec-label">SRS 점수 비교</div>', unsafe_allow_html=True)
+        df_s = df.sort_values("score")
+        bar_colors = [
+            COLOR_MAP[r] if n == selected else C_MUTED
+            for n, r in zip(df_s["지역"], df_s["등급cls"])
+        ]
+        fig_srs = go.Figure(go.Bar(
+            x=df_s["score"],
+            y=df_s["지역"],
             orientation="h",
             marker_color=bar_colors,
-            marker_cornerradius=6,
-            text=[f"{s:.1f}" for s in df_sorted["score"]],
+            text=[f"{v:.1f}" for v in df_s["score"]],
             textposition="outside",
-            textfont=dict(size=12, color="#E8E4DC"),
+            textfont=dict(size=12, color="#1C1917"),
         ))
-        fig_bar.add_vline(x=35, line_dash="dot", line_color="rgba(74,222,128,0.4)",
-                          annotation_text="유망", annotation_font_color="rgba(74,222,128,0.6)", annotation_font_size=10)
-        fig_bar.add_vline(x=65, line_dash="dot", line_color="rgba(248,113,113,0.4)",
-                          annotation_text="위험", annotation_font_color="rgba(248,113,113,0.6)", annotation_font_size=10)
-        fig_bar.update_layout(**BASE_LAYOUT, height=260,
-                              xaxis=dict(**BASE_LAYOUT["xaxis"], range=[0, 110]),
-                              margin=dict(l=0, r=40, t=10, b=0))
-        st.plotly_chart(fig_bar, use_container_width=True)
+        fig_srs.add_vline(
+            x=35, line_dash="dot", line_color="rgba(34,197,94,0.5)",
+            annotation_text="유망", annotation_font_size=10,
+            annotation_font_color="rgba(22,163,74,0.9)",
+        )
+        fig_srs.add_vline(
+            x=65, line_dash="dot", line_color="rgba(239,68,68,0.5)",
+            annotation_text="위험", annotation_font_size=10,
+            annotation_font_color="rgba(185,28,28,0.9)",
+        )
+        fig_srs.update_layout(
+            **BASE, height=240,
+            xaxis=dict(**BASE["xaxis"], range=[0, 115]),
+            margin=dict(l=0, r=36, t=10, b=0),
+        )
+        st.plotly_chart(fig_srs, use_container_width=True)
 
-        # 인사이트
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown('<div class="card-title">인사이트</div>', unsafe_allow_html=True)
-        recent = region_trend[region_trend["연도"] >= 2023]
-        close_gt = (recent["폐업"] > recent["개업"]).sum()
+        st.markdown('<div class="sec-label">데이터 인사이트</div>', unsafe_allow_html=True)
+        recent3  = region_trend[region_trend["연도"] >= 2023]
+        close_gt = int((recent3["폐업"] > recent3["개업"]).sum())
         if close_gt >= 2:
-            ins = ("warn", f"최근 3년 중 <b>{close_gt}년</b> 연속 폐업이 개업을 초과했습니다. 상권 포화 또는 수요 위축 신호일 수 있어 진입 전 추가 검토가 필요합니다.")
+            ins_cls = "i-warn"
+            ins_txt = f"최근 3년 중 <b>{close_gt}년</b> 연속 폐업 &gt; 개업. 상권 포화 가능성이 있습니다."
         elif srs <= 35:
-            ins = ("good", "개업 증가세가 안정적이고 폐업률이 낮은 <b>유망 상권</b>입니다. 데이터상 창업 리스크가 상대적으로 낮게 측정되었습니다.")
+            ins_cls = "i-good"
+            ins_txt = "폐업률이 낮고 개업 증가세가 안정적인 <b>유망 상권</b>입니다."
         else:
-            ins = ("neutral", "개업과 폐업이 균형을 이루는 <b>안정 국면</b>입니다. 경쟁 강도와 임대료 추이를 추가로 확인하세요.")
-        st.markdown(f'<div class="insight insight-{ins[0]}">{ins[1]}</div>', unsafe_allow_html=True)
+            ins_cls = "i-neut"
+            ins_txt = "개업과 폐업이 균형을 이루는 <b>안정 국면</b>. 경쟁 강도를 추가 확인하세요."
+        st.markdown(f'<div class="insight {ins_cls}">{ins_txt}</div>', unsafe_allow_html=True)
 
-# ══ TAB 2: 추이 ══
+# ── TAB 2: 추이 ──────────────────────────────
 with tab2:
-    c_left, c_right = st.columns([5, 2], gap="large")
+    left2, right2 = st.columns([5, 2], gap="large")
 
-    with c_left:
-        st.markdown('<div class="card-title">연도별 개·폐업 현황</div>', unsafe_allow_html=True)
-
-        fig_trend = go.Figure()
-        fig_trend.add_trace(go.Bar(
-            x=region_trend["연도"], y=region_trend["개업"],
-            name="개업", marker_color=C_BLUE, marker_cornerradius=4, opacity=0.9,
-        ))
-        fig_trend.add_trace(go.Bar(
-            x=region_trend["연도"], y=-region_trend["폐업"],
-            name="폐업", marker_color=C_RED, marker_cornerradius=4, opacity=0.9,
-        ))
+    with left2:
+        st.markdown('<div class="sec-label">연도별 개·폐업 현황</div>', unsafe_allow_html=True)
         net_series = region_trend["개업"] - region_trend["폐업"]
-        fig_trend.add_trace(go.Scatter(
+
+        fig_t = go.Figure()
+        fig_t.add_trace(go.Bar(
+            x=region_trend["연도"], y=region_trend["개업"],
+            name="개업", marker_color=C_BLUE, opacity=0.85,
+        ))
+        fig_t.add_trace(go.Bar(
+            x=region_trend["연도"], y=-region_trend["폐업"],
+            name="폐업", marker_color=C_RED, opacity=0.85,
+        ))
+        fig_t.add_trace(go.Scatter(
             x=region_trend["연도"], y=net_series,
             mode="lines+markers", name="순증감",
-            line=dict(color=C_GOLD, width=2.5),
-            marker=dict(size=7, color=C_GOLD, line=dict(color="#0D1117", width=2)),
+            line=dict(color=C_AMBER, width=2.5),
+            marker=dict(size=7, color=C_AMBER,
+                        line=dict(color="#FFFFFF", width=2)),
         ))
-        fig_trend.update_layout(
-            **BASE_LAYOUT, barmode="overlay", height=320,
-            yaxis=dict(**BASE_LAYOUT["yaxis"], zeroline=True, zerolinecolor="rgba(255,255,255,0.12)"),
-            xaxis=dict(**BASE_LAYOUT["xaxis"], tickmode="linear", dtick=1),
+        fig_t.update_layout(
+            **BASE, barmode="overlay", height=320,
+            yaxis=dict(**BASE["yaxis"], zeroline=True, zerolinecolor="#E7E5E0"),
+            xaxis=dict(**BASE["xaxis"], tickmode="linear", dtick=1),
         )
-        st.plotly_chart(fig_trend, use_container_width=True)
+        st.plotly_chart(fig_t, use_container_width=True)
 
-        # 누적 라인
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown('<div class="card-title">누적 순증감</div>', unsafe_allow_html=True)
+        st.markdown('<div class="sec-label" style="margin-top:20px;">누적 순증감</div>', unsafe_allow_html=True)
+        rt2 = region_trend.copy()
+        rt2["누적"] = (rt2["개업"] - rt2["폐업"]).cumsum()
+        lc      = C_GREEN if rt2["누적"].iloc[-1] >= 0 else C_RED
+        fill_c  = "rgba(34,197,94,0.08)" if lc == C_GREEN else "rgba(239,68,68,0.08)"
 
-        region_trend2 = region_trend.copy()
-        region_trend2["누적"] = (region_trend2["개업"] - region_trend2["폐업"]).cumsum()
-        line_color = C_GREEN if region_trend2["누적"].iloc[-1] >= 0 else C_RED
-
-        fig_cum = go.Figure()
-        fig_cum.add_trace(go.Scatter(
-            x=region_trend2["연도"], y=region_trend2["누적"],
-            fill="tozeroy",
-            fillcolor=line_color.replace(")", ",0.10)").replace("rgb", "rgba") if "rgb" in line_color else line_color + "1A",
-            line=dict(color=line_color, width=2),
+        fig_cum = go.Figure(go.Scatter(
+            x=rt2["연도"], y=rt2["누적"],
+            fill="tozeroy", fillcolor=fill_c,
+            line=dict(color=lc, width=2),
             mode="lines+markers",
-            marker=dict(size=6, color=line_color, line=dict(color="#0D1117", width=2)),
+            marker=dict(size=6, color=lc,
+                        line=dict(color="#FFFFFF", width=2)),
         ))
         fig_cum.update_layout(
-            **BASE_LAYOUT, height=180,
-            yaxis=dict(**BASE_LAYOUT["yaxis"], zeroline=True, zerolinecolor="rgba(255,255,255,0.12)"),
-            xaxis=dict(**BASE_LAYOUT["xaxis"], tickmode="linear", dtick=1),
+            **BASE, height=190,
+            yaxis=dict(**BASE["yaxis"], zeroline=True, zerolinecolor="#E7E5E0"),
+            xaxis=dict(**BASE["xaxis"], tickmode="linear", dtick=1),
         )
         st.plotly_chart(fig_cum, use_container_width=True)
 
-    with c_right:
-        st.markdown('<div class="card-title">기간 요약</div>', unsafe_allow_html=True)
-        period_open  = int(region_trend["개업"].sum())
-        period_close = int(region_trend["폐업"].sum())
-        period_net   = period_open - period_close
-        survival_est = round(1 - period_close / max(period_open, 1), 2)
+    with right2:
+        st.markdown('<div class="sec-label">기간 요약 (2019–2025)</div>', unsafe_allow_html=True)
+        p_open  = int(region_trend["개업"].sum())
+        p_close = int(region_trend["폐업"].sum())
+        p_net   = p_open - p_close
 
         stats = [
-            ("기간 총 개업", f"{period_open}건", ""),
-            ("기간 총 폐업", f"{period_close}건", ""),
-            ("기간 순 증감", f"{'+'if period_net>=0 else ''}{period_net}건", "up" if period_net >= 0 else "down"),
-            ("폐업률", f"{round(period_close/max(period_open,1)*100)}%", ""),
-            ("생존율 추정", f"{int(survival_est*100)}%", ""),
+            ("기간 총 개업",  f"{p_open}건",  ""),
+            ("기간 총 폐업",  f"{p_close}건", ""),
+            ("기간 순 증감",  f"{'+' if p_net>=0 else ''}{p_net}건", "up" if p_net>=0 else "down"),
+            ("폐업률",        f"{round(p_close/max(p_open,1)*100)}%", ""),
+            ("생존율 추정",   f"{int(info['생존율']*100)}%", ""),
         ]
-        for label, val, c2 in stats:
-            color = f"color:{'#4ADE80' if c2=='up' else '#F87171' if c2=='down' else '#E8E4DC'};font-weight:700;"
-            st.markdown(f"""
-            <div style="display:flex;justify-content:space-between;align-items:center;
-                        padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px;">
-                <span style="color:rgba(255,255,255,0.38);">{label}</span>
-                <span style="{color}">{val}</span>
-            </div>
-            """, unsafe_allow_html=True)
+        for k, v, sc in stats:
+            vc = "#16A34A" if sc=="up" else "#DC2626" if sc=="down" else "#1C1917"
+            st.markdown(
+                f'<div class="stat-row">'
+                f'<span class="stat-key">{k}</span>'
+                f'<span style="color:{vc};font-weight:700;font-size:13px;">{v}</span>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
 
-        # 미니 게이지
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown('<div class="card-title">위험도 게이지</div>', unsafe_allow_html=True)
-        gauge_c = {"safe": C_GREEN, "ok": "#FACC15", "caution": "#FB923C", "danger": C_RED}[cls]
+        st.markdown('<hr class="hr">', unsafe_allow_html=True)
+        st.markdown('<div class="sec-label">위험도 게이지</div>', unsafe_allow_html=True)
+
+        gc = COLOR_MAP[cls]
         fig_g = go.Figure(go.Indicator(
             mode="gauge+number",
             value=srs,
-            number={"suffix": "점", "font": {"size": 26, "color": "#F0EAD6", "family": "DM Serif Display"}},
+            number={"suffix": "점", "font": {"size": 26, "color": "#1C1917",
+                                              "family": "Lora, serif"}},
             gauge={
-                "axis": {"range": [0, 100], "tickwidth": 0, "tickcolor": "transparent", "tickvals": []},
-                "bar": {"color": gauge_c, "thickness": 0.22},
-                "bgcolor": "rgba(255,255,255,0.05)",
+                "axis": {"range": [0, 100], "tickvals": [], "tickwidth": 0},
+                "bar":  {"color": gc, "thickness": 0.22},
+                "bgcolor": "#F0EDE8",
                 "borderwidth": 0,
                 "steps": [
-                    {"range": [0,  35], "color": "rgba(74,222,128,0.08)"},
-                    {"range": [35, 65], "color": "rgba(250,204,21,0.06)"},
-                    {"range": [65,100], "color": "rgba(248,113,113,0.08)"},
+                    {"range": [0,  35], "color": "rgba(34,197,94,0.12)"},
+                    {"range": [35, 65], "color": "rgba(234,179,8,0.10)"},
+                    {"range": [65,100], "color": "rgba(239,68,68,0.10)"},
                 ],
             },
         ))
-        fig_g.update_layout(paper_bgcolor="rgba(0,0,0,0)", font_family="Noto Sans KR",
-                            height=160, margin=dict(l=10, r=10, t=10, b=0))
+        fig_g.update_layout(
+            paper_bgcolor="rgba(0,0,0,0)",
+            font_family="Noto Sans KR, sans-serif",
+            height=165, margin=dict(l=10, r=10, t=10, b=0),
+        )
         st.plotly_chart(fig_g, use_container_width=True)
         st.markdown(
-            f'<div style="text-align:center;margin-top:-8px;">'
-            f'<span class="risk-badge {srs_cls_map[cls]}">{grade_map[cls]}</span></div>',
-            unsafe_allow_html=True
+            f'<div style="text-align:center;margin-top:-10px;">'
+            f'<span class="badge {BADGE_CLS[cls]}">{GRADE_LABEL[cls]}</span></div>',
+            unsafe_allow_html=True,
         )
 
-# ══ TAB 3: 전체 비교 ══
+# ── TAB 3: 전체 비교 ─────────────────────────
 with tab3:
-    st.markdown('<div class="card-title">전체 지역 SRS 종합 비교</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-label">전체 지역 SRS 종합 비교</div>', unsafe_allow_html=True)
 
-    df_sorted2 = df.sort_values("score")
-    fig_all = go.Figure()
-    for _, row in df_sorted2.iterrows():
-        is_sel = row["지역"] == selected
-        c = color_map[row["등급cls"]]
-        fig_all.add_trace(go.Bar(
-            x=[row["지역"]], y=[row["score"]],
-            name=row["지역"],
-            marker_color=c if is_sel else C_DIM,
-            marker_cornerradius=8,
-            text=[f"{row['score']:.1f}"],
-            textposition="outside",
-            textfont=dict(size=12, color=c if is_sel else "rgba(255,255,255,0.4)"),
-            showlegend=False,
-        ))
-
-    fig_all.add_hline(y=35, line_dash="dot", line_color="rgba(74,222,128,0.35)",
-                      annotation_text="유망 기준 (35점)", annotation_font_size=11,
-                      annotation_font_color="rgba(74,222,128,0.6)")
-    fig_all.add_hline(y=65, line_dash="dot", line_color="rgba(248,113,113,0.35)",
-                      annotation_text="위험 기준 (65점)", annotation_font_size=11,
-                      annotation_font_color="rgba(248,113,113,0.6)")
+    df_s2 = df.sort_values("score")
+    all_colors = [
+        COLOR_MAP[r] if n == selected else "#E7E5E0"
+        for n, r in zip(df_s2["지역"], df_s2["등급cls"])
+    ]
+    fig_all = go.Figure(go.Bar(
+        x=df_s2["지역"],
+        y=df_s2["score"],
+        marker_color=all_colors,
+        text=[f"{v:.1f}" for v in df_s2["score"]],
+        textposition="outside",
+        textfont=dict(size=13, color="#1C1917"),
+    ))
+    fig_all.add_hline(
+        y=35, line_dash="dot", line_color="rgba(34,197,94,0.5)",
+        annotation_text="유망 기준 35점", annotation_font_size=11,
+        annotation_font_color="rgba(22,163,74,0.8)",
+    )
+    fig_all.add_hline(
+        y=65, line_dash="dot", line_color="rgba(239,68,68,0.5)",
+        annotation_text="위험 기준 65점", annotation_font_size=11,
+        annotation_font_color="rgba(185,28,28,0.8)",
+    )
     fig_all.update_layout(
-        **BASE_LAYOUT, height=340,
-        yaxis=dict(**BASE_LAYOUT["yaxis"], range=[0, 120]),
+        **BASE, height=320,
+        yaxis=dict(**BASE["yaxis"], range=[0, 110]),
         margin=dict(l=0, r=0, t=20, b=0),
     )
     st.plotly_chart(fig_all, use_container_width=True)
 
-    # 테이블
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown('<div class="card-title">상세 데이터 테이블</div>', unsafe_allow_html=True)
-    display_df = df[["지역", "등급", "score", "stores", "open", "close", "생존율"]].copy()
-    display_df.columns = ["지역", "등급", "SRS 점수", "매장 수", "최근 개업", "최근 폐업", "생존율"]
-    display_df["생존율"] = display_df["생존율"].apply(lambda x: f"{int(x*100)}%")
-    display_df = display_df.sort_values("SRS 점수")
+    st.markdown('<hr class="hr"><div class="sec-label">상세 데이터 테이블</div>', unsafe_allow_html=True)
+    display = df[["지역", "등급", "score", "stores", "open", "close", "생존율"]].copy()
+    display.columns = ["지역", "등급", "SRS 점수", "매장 수", "최근 개업", "최근 폐업", "생존율"]
+    display["생존율"] = display["생존율"].apply(lambda x: f"{int(x*100)}%")
+    display = display.sort_values("SRS 점수")
     st.dataframe(
-        display_df,
+        display,
         use_container_width=True,
         hide_index=True,
         column_config={
             "SRS 점수": st.column_config.ProgressColumn(
                 "SRS 점수", min_value=0, max_value=100, format="%.1f"
-            ),
+            )
         },
     )
 
 # ══════════════════════════════════════════════
 #  하단 CTA
 # ══════════════════════════════════════════════
-st.markdown('<hr class="divider">', unsafe_allow_html=True)
-cta_l, cta_r = st.columns([1, 3])
-with cta_l:
+st.markdown('<hr class="hr">', unsafe_allow_html=True)
+btn_col, txt_col = st.columns([1, 3])
+with btn_col:
     if st.button("📄 PDF 리포트 생성", use_container_width=True):
-        st.toast("📄 리포트 생성은 비즈니스 플랜 구독 후 이용 가능합니다.", icon="🔒")
-with cta_r:
+        st.toast("🔒 비즈니스 플랜 구독 후 이용 가능합니다.", icon="📄")
+with txt_col:
     st.markdown("""
-    <div style="font-size:12px;color:rgba(255,255,255,0.28);padding-top:12px;line-height:1.8;">
+    <div style="font-size:12px;color:#A8A29E;padding-top:12px;line-height:1.9;">
     상권 요약 · 시계열 차트 · SRS 점수 · 추천 지역이 포함된 PDF 리포트를 생성합니다.<br>
-    창업 계획서, 투자 제안서, 금융기관 대출 심사 서류에 활용 가능합니다.
+    창업 계획서 · 투자 제안서 · 금융기관 대출 심사 서류에 활용 가능합니다.
     </div>
     """, unsafe_allow_html=True)
