@@ -31,13 +31,13 @@ button[aria-label="Open sidebar"] { display: none !important; }
 .block-container { padding: 1.8rem 2rem 2rem; }
 
 .wm { padding: 22px 16px 16px; border-bottom: 1px solid #F0EDE8; margin-bottom: 18px; }
-.wm-title { font-family: 'Lora', serif; font-size: 20px; color: #B8622A; letter-spacing: -0.01em; }
+.wm-title { font-family: 'Lora', serif; font-size: 22px; color: #B8622A; letter-spacing: -0.01em; }
 .wm-sub   { font-size: 10px; font-weight: 600; color: #B0A89E; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 3px; }
 
-.eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #B8622A; margin-bottom: 5px; }
-.ptitle  { font-family: 'Lora', serif; font-size: 26px; color: #1C1917; line-height: 1.2; margin-bottom: 4px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #B8622A; margin-bottom: 5px; }
+.ptitle  { font-family: 'Lora', serif; font-size: 32px; color: #1C1917; line-height: 1.2; margin-bottom: 4px; }
 .ptitle em { color: #B8622A; font-style: normal; }
-.pdesc   { font-size: 13px; color: #6B6560; margin-bottom: 20px; }
+.pdesc   { font-size: 15px; color: #6B6560; margin-bottom: 20px; }
 
 .krow { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
 .kcard {
@@ -47,31 +47,31 @@ button[aria-label="Open sidebar"] { display: none !important; }
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 .kcard.hl { border-color: #B8622A; background: #FEF5EE; }
-.klabel { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #A8A29E; margin-bottom: 7px; }
-.kval   { font-family: 'Lora', serif; font-size: 26px; color: #1C1917; line-height: 1; }
+.klabel { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #A8A29E; margin-bottom: 7px; }
+.kval   { font-family: 'Lora', serif; font-size: 30px; color: #1C1917; line-height: 1; }
 .kval.amber { color: #B8622A; }
-.kdelta { font-size: 11px; font-weight: 500; color: #A8A29E; margin-top: 4px; }
+.kdelta { font-size: 13px; font-weight: 500; color: #A8A29E; margin-top: 4px; }
 .kdelta.up   { color: #16A34A; }
 .kdelta.down { color: #DC2626; }
 
-.bdg { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 700; }
+.bdg { display: inline-flex; align-items: center; padding: 4px 13px; border-radius: 100px; font-size: 13px; font-weight: 700; }
 .bdg-safe    { background: #F0FDF4; color: #15803D; border: 1px solid #BBF7D0; }
 .bdg-ok      { background: #FEFCE8; color: #A16207; border: 1px solid #FDE68A; }
 .bdg-caution { background: #FFF7ED; color: #C2410C; border: 1px solid #FDBA74; }
 .bdg-danger  { background: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; }
 
 .slabel {
-    font-size: 10px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase;
-    color: #A8A29E; margin-bottom: 12px; display: flex; align-items: center; gap: 7px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #A8A29E; margin-bottom: 14px; display: flex; align-items: center; gap: 7px;
 }
 .slabel::before { content:''; display:inline-block; width:3px; height:10px; background:#B8622A; border-radius:2px; }
 
 .hr { border: none; border-top: 1px solid #E7E4DF; margin: 16px 0; }
-.srow { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid #F0EDE8; font-size:13px; }
+.srow { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #F0EDE8; font-size:14px; }
 .srow:last-child { border-bottom:none; }
 .skey { color: #78716C; }
 
-.insight { border-radius: 10px; padding: 12px 14px; font-size: 13px; line-height: 1.65; margin-bottom: 10px; }
+.insight { border-radius: 10px; padding: 14px 16px; font-size: 14px; line-height: 1.65; margin-bottom: 10px; }
 .ins-good { background: #F0FDF4; border-left: 3px solid #22C55E; color: #14532D; }
 .ins-warn { background: #FFF7ED; border-left: 3px solid #F97316; color: #7C2D12; }
 .ins-neut { background: #FEFCE8; border-left: 3px solid #EAB308; color: #713F12; }
@@ -83,11 +83,11 @@ button[aria-label="Open sidebar"] { display: none !important; }
     transition: border-color .15s;
 }
 .rec-card:hover { border-color: #B8622A; background: #FEF5EE; }
-.rec-name   { font-size: 15px; font-weight: 700; color: #1C1917; margin-bottom: 4px; }
-.rec-reason { font-size: 12px; color: #78716C; line-height: 1.5; }
+.rec-name   { font-size: 17px; font-weight: 700; color: #1C1917; margin-bottom: 4px; }
+.rec-reason { font-size: 13px; color: #78716C; line-height: 1.5; }
 
-.cmp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.cmp-table th { background: #F5F2EE; padding: 10px 14px; text-align: left; font-weight: 700; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #78716C; border-bottom: 2px solid #E7E4DF; }
+.cmp-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.cmp-table th { background: #F5F2EE; padding: 11px 14px; text-align: left; font-weight: 700; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: #78716C; border-bottom: 2px solid #E7E4DF; }
 .cmp-table td { padding: 10px 14px; border-bottom: 1px solid #F0EDE8; color: #1C1917; font-weight: 500; }
 .cmp-table tr:last-child td { border-bottom: none; }
 .cmp-table tr:hover td { background: #FAF8F5; }
@@ -95,7 +95,7 @@ button[aria-label="Open sidebar"] { display: none !important; }
 .stTabs [data-baseweb="tab-list"] { background: #EDE9E4; border-radius: 10px; padding: 3px; gap: 0; border: none; }
 .stTabs [data-baseweb="tab"] {
     border-radius: 7px !important; padding: 7px 15px !important;
-    font-size: 12px !important; font-weight: 600 !important;
+    font-size: 13px !important; font-weight: 600 !important;
     font-family: 'Noto Sans KR', sans-serif !important;
     color: #78716C !important; letter-spacing: 0.02em !important;
 }
@@ -110,7 +110,7 @@ button[aria-label="Open sidebar"] { display: none !important; }
     background: #B8622A !important; color: #FFFFFF !important;
     border: none !important; border-radius: 10px !important;
     font-family: 'Noto Sans KR', sans-serif !important;
-    font-weight: 700 !important; font-size: 13px !important;
+    font-weight: 700 !important; font-size: 14px !important;
     padding: 10px 20px !important;
     box-shadow: 0 2px 6px rgba(184,98,42,0.28) !important;
 }
@@ -340,7 +340,7 @@ with st.sidebar:
     <div>
         <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
                     color:#A8A29E;margin-bottom:9px;">선택 지역 요약</div>
-        <div style="font-family:'Lora',serif;font-size:18px;color:#1C1917;margin-bottom:7px;">{sel}</div>
+        <div style="font-family:'Lora',serif;font-size:20px;color:#1C1917;margin-bottom:7px;">{sel}</div>
         <span class="bdg {BDGCLS[cls]}">{GLABEL[cls]}</span>
         <div style="margin-top:12px;">{items_html}</div>
     </div>
@@ -429,11 +429,12 @@ st.markdown(f"""
 # ══════════════════════════════════════════════════════════════
 #  TABS
 # ══════════════════════════════════════════════════════════════
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "  🗺 지도 & 분포  ",
     "  📈 개·폐업 추이  ",
     "  🔁 다지역 비교  ",
     "  🏆 추천 상권  ",
+    "  ⚠️ 비추천 상권  ",
 ])
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -790,6 +791,176 @@ with tab4:
         xaxis=dict(**AX), yaxis=dict(**AX, range=[0, 110]),
         margin=dict(l=0, r=0, t=20, b=0)))
     st.plotly_chart(fig_all, use_container_width=True)
+
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#  TAB 5 — 비추천 상권
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+with tab5:
+    # 위험 이유 생성
+    def warn_reason(r):
+        parts = []
+        if r['closure_rate'] > 1.0:   parts.append(f"폐업이 개업 초과 (폐업률 {r['closure_rate']*100:.0f}%)")
+        if r['growth'] < 0:           parts.append(f"개업 감소 추세 ({r['growth']*100:.0f}%)")
+        if r['density'] > 12:         parts.append(f"높은 경쟁 밀도 ({r['density']:.1f}개/km²)")
+        if r['survival'] < 0.25:      parts.append(f"낮은 생존율 ({int(r['survival']*100)}%)")
+        if r['close_24'] > r['open_24']: parts.append(f"2024년 폐업 > 개업 ({r['close_24']} vs {r['open_24']}건)")
+        return parts if parts else ["전반적 리스크 높음"]
+
+    bad_recs = sorted(
+        [r for r in filtered_regions if r['region'] != sel],
+        key=lambda r: r['srs'], reverse=True
+    )[:5]
+
+    # 현재 선택 지역 경고 박스
+    sel_warn = warn_reason(info)
+    sel_warn_html = "".join(f"<li>{w}</li>" for w in sel_warn)
+    sel_cls_color = {"danger": "#B91C1C", "caution": "#C2410C", "ok": "#A16207", "safe": "#15803D"}[cls]
+    st.markdown(f"""
+    <div style="background:#FEF2F2;border:1.5px solid #FECACA;border-radius:14px;padding:20px 22px;margin-bottom:20px;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div>
+                <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+                            color:#A8A29E;margin-bottom:6px;">현재 분석 지역</div>
+                <div style="font-family:'Lora',serif;font-size:20px;color:#1C1917;margin-bottom:8px;">{sel}</div>
+                <span class="bdg {BDGCLS[cls]}">{GLABEL[cls]}</span>
+                <ul style="margin:10px 0 0 0;padding-left:18px;font-size:13px;color:#7C2D12;line-height:1.8;">
+                    {sel_warn_html}
+                </ul>
+            </div>
+            <div style="text-align:right;min-width:90px;">
+                <div style="font-family:'Lora',serif;font-size:36px;color:{sel_cls_color};font-weight:700;line-height:1;">{srs:.1f}</div>
+                <div style="font-size:12px;color:#A8A29E;margin-top:4px;">SRS 점수</div>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    c_bad, c_radar = st.columns([3, 2], gap="large")
+
+    with c_bad:
+        st.markdown('<div class="slabel">위험도 높은 상권 WORST 5</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div class="data-note">⚠️ SRS 점수가 높을수록 창업 리스크가 높습니다. 해당 지역 진입 전 면밀한 검토가 필요합니다.</div>',
+            unsafe_allow_html=True
+        )
+
+        if not bad_recs:
+            st.info("현재 필터 조건을 만족하는 비추천 지역이 없습니다.")
+        else:
+            for rank, r in enumerate(bad_recs, 1):
+                diff = r['srs'] - srs
+                diff_html = (
+                    f'<span style="color:#DC2626;font-weight:700;">▲ {diff:.1f}점 높음</span>'
+                    if diff > 0 else
+                    f'<span style="color:#16A34A;font-weight:700;">▼ {abs(diff):.1f}점 낮음</span>'
+                )
+                warn_parts = warn_reason(r)
+                warn_html  = " · ".join(f"<span style='color:#DC2626;'>✗</span> {w}" for w in warn_parts)
+                st.markdown(f"""
+                <div style="background:#FFFFFF;border:1px solid #FECACA;border-radius:12px;
+                            padding:14px 16px;margin-bottom:10px;
+                            display:flex;justify-content:space-between;align-items:flex-start;">
+                    <div style="flex:1;">
+                        <div class="rec-name">#{rank} &nbsp; {r['region']}</div>
+                        <div style="font-size:13px;color:#78716C;line-height:1.6;margin-top:4px;">{warn_html}</div>
+                        <div style="margin-top:8px;">
+                            <span class="bdg {BDGCLS[r['cls']]}">{GLABEL[r['cls']]}</span>
+                            &nbsp; {diff_html}
+                        </div>
+                    </div>
+                    <div style="text-align:right;min-width:90px;flex-shrink:0;">
+                        <div style="font-family:'Lora',serif;font-size:28px;
+                                    color:{CMAP[r['cls']]};font-weight:700;">{r['srs']:.1f}</div>
+                        <div style="font-size:11px;color:#A8A29E;margin-top:2px;">SRS 점수</div>
+                        <div style="font-size:12px;color:#1C1917;margin-top:4px;font-weight:600;">영업 {r['active']:,}개</div>
+                        <div style="font-size:11px;color:#A8A29E;">폐업률 {r['closure_rate']*100:.0f}%</div>
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+    with c_radar:
+        st.markdown('<div class="slabel">위험 지표 상세 분석</div>', unsafe_allow_html=True)
+
+        # 위험 지표 레이더 차트
+        if bad_recs:
+            top_bad = bad_recs[0]
+            categories = ["폐업률", "밀집도", "개업감소", "생존율(역)", "SRS"]
+            cr_norm  = min((top_bad["closure_rate"] - 0.9) / 0.4 * 100, 100)
+            den_norm = min((top_bad["density"] - 3) / 15 * 100, 100)
+            gr_norm  = max((-top_bad["growth"]) / 0.3 * 100, 0)
+            su_norm  = (1 - top_bad["survival"]) * 100
+            srs_norm = top_bad["srs"]
+
+            # 선택 지역 지표
+            cr_sel  = min((info["closure_rate"] - 0.9) / 0.4 * 100, 100)
+            den_sel = min((info["density"] - 3) / 15 * 100, 100)
+            gr_sel  = max((-info["growth"]) / 0.3 * 100, 0)
+            su_sel  = (1 - info["survival"]) * 100
+
+            fig_radar = go.Figure()
+            fig_radar.add_trace(go.Scatterpolar(
+                r=[cr_norm, den_norm, gr_norm, su_norm, srs_norm, cr_norm],
+                theta=categories + [categories[0]],
+                fill="toself",
+                fillcolor="rgba(239,68,68,0.15)",
+                line=dict(color=CR, width=2),
+                name=f"WORST #{1} {top_bad['region']}",
+            ))
+            fig_radar.add_trace(go.Scatterpolar(
+                r=[cr_sel, den_sel, gr_sel, su_sel, srs, cr_sel],
+                theta=categories + [categories[0]],
+                fill="toself",
+                fillcolor="rgba(59,130,246,0.10)",
+                line=dict(color=CB, width=2, dash="dot"),
+                name=f"현재 {sel}",
+            ))
+            fig_radar.update_layout(
+                polar=dict(
+                    bgcolor="rgba(0,0,0,0)",
+                    radialaxis=dict(visible=True, range=[0,100],
+                                   gridcolor="#EDE9E4", tickfont_size=10,
+                                   tickcolor="#EDE9E4"),
+                    angularaxis=dict(gridcolor="#EDE9E4", tickfont_size=12,
+                                    tickcolor="#EDE9E4"),
+                ),
+                paper_bgcolor="rgba(0,0,0,0)",
+                font_family="Noto Sans KR, sans-serif",
+                font_color="#1C1917",
+                legend=dict(font_size=12, bgcolor="rgba(0,0,0,0)"),
+                height=320, margin=dict(l=20,r=20,t=30,b=10),
+            )
+            st.plotly_chart(fig_radar, use_container_width=True)
+
+        # 위험 지표 요약 바
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown('<div class="slabel">전체 구 위험도 순위 (높은 순)</div>', unsafe_allow_html=True)
+        all_desc = sorted(filtered_regions, key=lambda r: r["srs"], reverse=True)
+        fig_desc = go.Figure(go.Bar(
+            x=[r["region"] for r in all_desc],
+            y=[r["srs"] for r in all_desc],
+            marker_color=[
+                "#DC2626" if r["srs"] >= 65
+                else "#F97316" if r["srs"] >= 50
+                else "#EAB308" if r["srs"] >= 35
+                else CG
+                for r in all_desc
+            ],
+            text=[f"{r['srs']:.1f}" for r in all_desc],
+            textposition="outside",
+            textfont=dict(size=12, color="#1C1917"),
+        ))
+        fig_desc.add_hline(y=65, line_dash="dot", line_color="rgba(239,68,68,0.5)",
+                           annotation_text="고위험 기준", annotation_font_size=11,
+                           annotation_font_color="rgba(185,28,28,0.8)")
+        fig_desc.add_hline(y=50, line_dash="dot", line_color="rgba(249,115,22,0.5)",
+                           annotation_text="주의 기준", annotation_font_size=11,
+                           annotation_font_color="rgba(194,65,12,0.8)")
+        fig_desc.update_layout(**lay(height=260,
+            xaxis=dict(**AX),
+            yaxis=dict(**AX, range=[0, 110]),
+            margin=dict(l=0, r=0, t=20, b=0)))
+        st.plotly_chart(fig_desc, use_container_width=True)
 
 # ══════════════════════════════════════════════════════════════
 #  FOOTER
