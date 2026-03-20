@@ -725,159 +725,141 @@ with tab3:
 #  TAB 4 — 추천 상권
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 with tab4:
-    # ── 현재 지역 대비 상대 비교로 추천 이유 생성 ──
-    def rec_reason(candidate, current):
-        """현재 선택 지역 대비 후보 지역이 더 나은 구체적 이유"""
+    # ── 고정 TOP 5: SRS 점수 낮은 순 (선택 지역 무관, 항상 동일) ──
+    fixed_top5 = sorted(filtered_regions, key=lambda r: r['srs'])[:5]
+
+    def fixed_reason(r):
+        """절대 지표 기반 추천 이유 (실제 데이터 범위 반영)"""
         parts = []
-        if candidate['closure_rate'] < current['closure_rate'] - 0.02:
-            diff_pct = (current['closure_rate'] - candidate['closure_rate']) * 100
-            parts.append(f"폐업률 {diff_pct:.0f}%p 낮음")
-        if candidate['density'] < current['density'] * 0.85:
-            diff_den = current['density'] - candidate['density']
-            parts.append(f"경쟁 밀도 {diff_den:.1f}개/km² 낮음")
-        if candidate['growth'] > current['growth'] + 0.05:
-            parts.append(f"개업 증가세 상대적 우위")
-        if candidate['survival'] > current['survival'] + 0.02:
-            diff_sv = int((candidate['survival'] - current['survival']) * 100)
-            parts.append(f"생존율 {diff_sv}%p 높음")
-        if candidate['open_24'] > current['open_24']:
-            parts.append(f"2024 신규 개업 {candidate['open_24']}건 (현재 {current['open_24']}건)")
-        if not parts:
-            # 절대 기준으로 폴백
-            if candidate['density'] < 8:   parts.append("낮은 경쟁 밀도")
-            if candidate['growth'] > 0.1:  parts.append("개업 증가 추세")
-            if not parts:                  parts.append("전반적 SRS 리스크 낮음")
-        return parts
+        # 폐업률: 전체 평균 1.04 기준
+        if r['closure_rate'] < 1.00:
+            parts.append(f"상대적 낮은 폐업률 ({r['closure_rate']*100:.0f}%)")
+        # 밀집도: 전체 평균 8.7 기준
+        if r['density'] < 7.0:
+            parts.append(f"낮은 경쟁 밀도 ({r['density']:.1f}개/km²)")
+        # 개업 성장
+        if r['growth'] > 0.10:
+            parts.append(f"개업 증가 추세 (+{r['growth']*100:.0f}%)")
+        # 생존율: 전체 평균 0.25 기준
+        if r['survival'] > 0.28:
+            parts.append(f"높은 생존율 ({int(r['survival']*100)}%)")
+        # 2024 신규 개업 활발
+        if r['open_24'] > 60:
+            parts.append(f"활발한 신규 진입 (2024년 {r['open_24']}건)")
+        return parts if parts else ["전반적 SRS 리스크 낮음"]
 
-    top_recs = sorted(
-        [r for r in filtered_regions if r['region'] != sel],
-        key=lambda r: r['srs']
-    )[:5]
-
-    # ── 현재 지역 요약 카드 ──
-    st.markdown('<div class="slabel">현재 분석 중인 지역</div>', unsafe_allow_html=True)
-    st.markdown(f"""
-    <div style="background:#F5F2EE;border:1px solid #E7E4DF;border-radius:12px;
-                padding:16px 20px;margin-bottom:20px;
-                display:flex;justify-content:space-between;align-items:center;">
-        <div>
-            <div style="font-family:'Lora',serif;font-size:20px;color:#1C1917;margin-bottom:6px;">{sel}</div>
-            <span class="bdg {BDGCLS[cls]}">{GLABEL[cls]}</span>
-            <div style="font-size:13px;color:#78716C;margin-top:8px;line-height:1.7;">
-                폐업률 {info['closure_rate']*100:.0f}% &nbsp;·&nbsp;
-                밀집도 {info['density']:.1f}개/km² &nbsp;·&nbsp;
-                생존율 {int(info['survival']*100)}% &nbsp;·&nbsp;
-                2024 개업 {info['open_24']}건
-            </div>
-        </div>
-        <div style="text-align:right;">
-            <div style="font-family:'Lora',serif;font-size:36px;color:{CMAP[cls]};font-weight:700;line-height:1;">{srs:.1f}</div>
-            <div style="font-size:12px;color:#A8A29E;">SRS 점수</div>
-        </div>
+    # ── 헤더 안내 ──
+    st.markdown("""
+    <div class="data-note">
+    📌 <b>추천 상권은 선택 지역과 무관하게 고정</b>됩니다.
+    서울시 전체 구 중 SRS 위험도 점수가 낮은 TOP 5 상권으로,
+    폐업률 · 밀집도 · 개업 성장률 · 생존율을 종합 산출한 결과입니다.
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown(f'<div class="slabel">{sel} 대비 유리한 상권 TOP 5</div>', unsafe_allow_html=True)
-    st.markdown(
-        '<div class="data-note">📌 현재 선택 지역과 지표를 직접 비교하여, 각 항목에서 더 나은 근거가 있는 지역을 추천합니다.</div>',
-        unsafe_allow_html=True
-    )
+    st.markdown('<div class="slabel">서울시 유망 상권 TOP 5 (SRS 기준)</div>', unsafe_allow_html=True)
 
-    if not top_recs:
-        st.info("현재 필터 조건을 만족하는 추천 지역이 없습니다. 사이드바 필터를 조정해보세요.")
+    if not fixed_top5:
+        st.info("필터 조건을 만족하는 추천 지역이 없습니다. 사이드바 필터를 조정해보세요.")
     else:
-        for rank, r in enumerate(top_recs, 1):
-            diff      = srs - r['srs']
-            reasons   = rec_reason(r, info)
-            diff_html = (
-                f'<span style="color:#16A34A;font-weight:700;">▼ {diff:.1f}점 낮음</span>'
-                if diff > 0 else
-                f'<span style="color:#DC2626;font-weight:700;">▲ {abs(diff):.1f}점 높음</span>'
-            )
+        for rank, r in enumerate(fixed_top5, 1):
+            reasons     = fixed_reason(r)
+            is_current  = (r['region'] == sel)
             reason_tags = " &nbsp; ".join(
-                f'<span style="background:#F0FDF4;color:#15803D;padding:2px 8px;'
-                f'border-radius:6px;font-size:12px;font-weight:600;">✓ {p}</span>'
+                f'<span style="background:#F0FDF4;color:#15803D;padding:2px 9px;'                f'border-radius:6px;font-size:12px;font-weight:600;">✓ {p}</span>'
                 for p in reasons
             )
+            highlight = "border-color:#B8622A;background:#FEF5EE;" if is_current else ""
+            current_badge = '<span style="background:#FEF5EE;color:#B8622A;font-size:11px;'                            'font-weight:700;padding:2px 8px;border-radius:6px;margin-left:8px;">현재 선택</span>'                            if is_current else ""
             st.markdown(f"""
-            <div class="rec-card">
+            <div class="rec-card" style="{highlight}">
               <div style="flex:1;">
-                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-                    <span style="font-family:'Lora',serif;font-size:15px;color:#A8A29E;">#{rank}</span>
-                    <div class="rec-name">{r['region']}</div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px;">
+                  <span style="font-family:'Lora',serif;font-size:16px;font-weight:700;
+                               color:#A8A29E;min-width:28px;">#{rank}</span>
+                  <div class="rec-name">{r['region']}{current_badge}</div>
                 </div>
-                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">{reason_tags}</div>
-                <div style="font-size:13px;color:#78716C;line-height:1.6;">
-                    폐업률 {r['closure_rate']*100:.0f}% &nbsp;·&nbsp;
-                    밀집도 {r['density']:.1f}개/km² &nbsp;·&nbsp;
-                    생존율 {int(r['survival']*100)}% &nbsp;·&nbsp;
-                    2024 개업 {r['open_24']}건
+                <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px;">{reason_tags}</div>
+                <div style="font-size:13px;color:#78716C;line-height:1.8;">
+                  폐업률 <b>{r['closure_rate']*100:.0f}%</b> &nbsp;·&nbsp;
+                  밀집도 <b>{r['density']:.1f}개/km²</b> &nbsp;·&nbsp;
+                  생존율 <b>{int(r['survival']*100)}%</b> &nbsp;·&nbsp;
+                  2024 개업 <b>{r['open_24']}건</b>
                 </div>
                 <div style="margin-top:8px;">
                   <span class="bdg {BDGCLS[r['cls']]}">{GLABEL[r['cls']]}</span>
-                  &nbsp; {diff_html}
                 </div>
               </div>
-              <div style="text-align:right;min-width:90px;flex-shrink:0;padding-left:12px;">
-                <div style="font-family:'Lora',serif;font-size:28px;color:{CMAP[r['cls']]};font-weight:700;line-height:1;">{r['srs']:.1f}</div>
-                <div style="font-size:11px;color:#A8A29E;margin-top:2px;">SRS 점수</div>
-                <div style="font-size:12px;color:#1C1917;margin-top:6px;font-weight:600;">영업 {r['active']:,}개</div>
+              <div style="text-align:right;min-width:90px;flex-shrink:0;padding-left:16px;">
+                <div style="font-family:'Lora',serif;font-size:32px;
+                            color:{CMAP[r['cls']]};font-weight:700;line-height:1;">{r['srs']:.1f}</div>
+                <div style="font-size:12px;color:#A8A29E;margin-top:3px;">SRS 점수</div>
+                <div style="font-size:13px;color:#1C1917;margin-top:6px;font-weight:600;">
+                  영업 {r['active']:,}개
+                </div>
               </div>
             </div>
             """, unsafe_allow_html=True)
 
-    # ── 전체 비교 차트 ──
+    # ── 전체 순위 차트 + 3개 지표 비교 ──
     st.markdown("<br>", unsafe_allow_html=True)
     cl, cr_col = st.columns(2, gap="large")
 
     with cl:
-        st.markdown('<div class="slabel">전체 구 SRS 순위</div>', unsafe_allow_html=True)
+        st.markdown('<div class="slabel">전체 구 SRS 순위 (낮을수록 유망)</div>', unsafe_allow_html=True)
         all_s = sorted(filtered_regions, key=lambda r: r['srs'])
+        top5_names = {r['region'] for r in fixed_top5}
         fig_all = go.Figure(go.Bar(
             x=[r['region'] for r in all_s],
             y=[r['srs'] for r in all_s],
-            marker_color=[CMAP[r['cls']] if r['region'] != sel else CA for r in all_s],
+            marker_color=[
+                CMAP[r['cls']] if r['region'] in top5_names else "#D6D3CE"
+                for r in all_s
+            ],
             text=[f"{r['srs']:.1f}" for r in all_s],
             textposition="outside",
             textfont=dict(size=12, color="#1C1917"),
         ))
         fig_all.add_hline(y=35, line_dash="dot", line_color="rgba(34,197,94,0.5)",
-                          annotation_text="유망 35점", annotation_font_size=11,
+                          annotation_text="유망 기준 35점", annotation_font_size=11,
                           annotation_font_color="rgba(22,163,74,0.8)")
         fig_all.add_hline(y=65, line_dash="dot", line_color="rgba(239,68,68,0.5)",
-                          annotation_text="위험 65점", annotation_font_size=11,
+                          annotation_text="위험 기준 65점", annotation_font_size=11,
                           annotation_font_color="rgba(185,28,28,0.8)")
         fig_all.update_layout(**lay(height=290,
-            xaxis=dict(**AX), yaxis=dict(**AX, range=[0, 110]),
+            xaxis=dict(**AX),
+            yaxis=dict(**AX, range=[0, 110]),
             margin=dict(l=0, r=0, t=20, b=0)))
         st.plotly_chart(fig_all, use_container_width=True)
 
     with cr_col:
-        st.markdown('<div class="slabel">현재 지역 vs 추천 TOP3 지표 비교</div>', unsafe_allow_html=True)
-        compare_list = [info] + top_recs[:3]
-        compare_names = [sel + " (현재)"] + [r['region'] for r in top_recs[:3]]
-        metrics = {
-            "폐업률(%)":     [r['closure_rate'] * 100 for r in compare_list],
-            "밀집도(/km²)":  [r['density'] for r in compare_list],
-            "생존율(%)":     [r['survival'] * 100 for r in compare_list],
-        }
-        colors_cmp = [CA] + [CMAP[r['cls']] for r in top_recs[:3]]
-        fig_cmp2 = go.Figure()
-        for i, (metric, vals) in enumerate(metrics.items()):
-            fig_cmp2.add_trace(go.Bar(
-                name=metric,
-                x=compare_names,
-                y=vals,
-                marker_color=[
-                    f"rgba({int(c[1:3],16)},{int(c[3:5],16)},{int(c[5:7],16)},{0.85 - i*0.15})"
-                    for c in colors_cmp
-                ],
-            ))
-        fig_cmp2.update_layout(**lay(
-            barmode="group", height=290,
-            xaxis=dict(**AX), yaxis=dict(**AX),
+        st.markdown('<div class="slabel">TOP 5 핵심 지표 비교</div>', unsafe_allow_html=True)
+        cmp_names = [r['region'] for r in fixed_top5]
+        fig_cmp = go.Figure()
+        fig_cmp.add_trace(go.Bar(
+            name="폐업률(%)",
+            x=cmp_names,
+            y=[r['closure_rate'] * 100 for r in fixed_top5],
+            marker_color=CB, opacity=0.85,
         ))
-        st.plotly_chart(fig_cmp2, use_container_width=True)
+        fig_cmp.add_trace(go.Bar(
+            name="밀집도(/km²)",
+            x=cmp_names,
+            y=[r['density'] for r in fixed_top5],
+            marker_color=CY, opacity=0.85,
+        ))
+        fig_cmp.add_trace(go.Bar(
+            name="생존율(%)",
+            x=cmp_names,
+            y=[r['survival'] * 100 for r in fixed_top5],
+            marker_color=CG, opacity=0.85,
+        ))
+        fig_cmp.update_layout(**lay(
+            barmode="group", height=290,
+            xaxis=dict(**AX),
+            yaxis=dict(**AX),
+        ))
+        st.plotly_chart(fig_cmp, use_container_width=True)
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
