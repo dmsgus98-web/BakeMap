@@ -147,9 +147,12 @@ BASE = dict(
         orientation="h", yanchor="bottom", y=1.02,
         xanchor="right", x=1, font_size=11, bgcolor="rgba(0,0,0,0)",
     ),
-    xaxis=dict(gridcolor="#EDE9E4", tickfont_size=11, showline=False),
-    yaxis=dict(gridcolor="#EDE9E4", tickfont_size=11, showline=False),
 )
+AX  = dict(gridcolor="#EDE9E4", tickfont_size=11, showline=False)   # 기본 축
+
+def lay(**kw):
+    """BASE에 추가 옵션을 병합해 layout dict 반환 (xaxis/yaxis 중복 없음)"""
+    return {**BASE, **kw}
 
 CA = "#B8622A"   # 앰버 (포인트)
 CB = "#3B82F6"   # 파랑 (개업)
@@ -372,9 +375,12 @@ with tab1:
         fig_srs.add_vline(x=65, line_dash="dot", line_color="rgba(239,68,68,0.5)",
                           annotation_text="위험", annotation_font_size=10,
                           annotation_font_color="rgba(185,28,28,0.9)")
-        fig_srs.update_layout(**BASE, height=240,
-                              xaxis=dict(**BASE["xaxis"], range=[0, 115]),
-                              margin=dict(l=0, r=36, t=10, b=0))
+        fig_srs.update_layout(**lay(
+            height=240,
+            xaxis=dict(**AX, range=[0, 115]),
+            yaxis=dict(**AX),
+            margin=dict(l=0, r=36, t=10, b=0),
+        ))
         st.plotly_chart(fig_srs, use_container_width=True)
 
         st.markdown('<div class="slabel">데이터 인사이트</div>', unsafe_allow_html=True)
@@ -407,11 +413,11 @@ with tab2:
             line=dict(color=CA, width=2.5),
             marker=dict(size=7, color=CA, line=dict(color="#FFFFFF", width=2)),
         ))
-        fig_t.update_layout(
-            **BASE, barmode="overlay", height=310,
-            yaxis=dict(**BASE["yaxis"], zeroline=True, zerolinecolor="#E7E4DF"),
-            xaxis=dict(**BASE["xaxis"], tickmode="linear", dtick=1),
-        )
+        fig_t.update_layout(**lay(
+            barmode="overlay", height=310,
+            xaxis=dict(**AX, tickmode="linear", dtick=1),
+            yaxis=dict(**AX, zeroline=True, zerolinecolor="#E7E4DF"),
+        ))
         st.plotly_chart(fig_t, use_container_width=True)
 
         st.markdown('<div class="slabel" style="margin-top:18px;">누적 순증감</div>', unsafe_allow_html=True)
@@ -426,11 +432,11 @@ with tab2:
             line=dict(color=lc, width=2), mode="lines+markers",
             marker=dict(size=6, color=lc, line=dict(color="#FFFFFF", width=2)),
         ))
-        fig_c.update_layout(
-            **BASE, height=185,
-            yaxis=dict(**BASE["yaxis"], zeroline=True, zerolinecolor="#E7E4DF"),
-            xaxis=dict(**BASE["xaxis"], tickmode="linear", dtick=1),
-        )
+        fig_c.update_layout(**lay(
+            height=185,
+            xaxis=dict(**AX, tickmode="linear", dtick=1),
+            yaxis=dict(**AX, zeroline=True, zerolinecolor="#E7E4DF"),
+        ))
         st.plotly_chart(fig_c, use_container_width=True)
 
     with r2:
@@ -503,9 +509,12 @@ with tab3:
     fig_all.add_hline(y=65, line_dash="dot", line_color="rgba(239,68,68,0.5)",
                       annotation_text="위험 기준 65점", annotation_font_size=11,
                       annotation_font_color="rgba(185,28,28,0.8)")
-    fig_all.update_layout(**BASE, height=310,
-                          yaxis=dict(**BASE["yaxis"], range=[0, 110]),
-                          margin=dict(l=0, r=0, t=20, b=0))
+    fig_all.update_layout(**lay(
+        height=310,
+        xaxis=dict(**AX),
+        yaxis=dict(**AX, range=[0, 110]),
+        margin=dict(l=0, r=0, t=20, b=0),
+    ))
     st.plotly_chart(fig_all, use_container_width=True)
 
     st.markdown('<hr class="hr"><div class="slabel">상세 데이터 테이블</div>', unsafe_allow_html=True)
