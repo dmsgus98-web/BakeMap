@@ -131,6 +131,59 @@ html, body, [class*="css"] {
 
 /* 지도 */
 iframe { border-radius: 12px; }
+
+/* ══ 사이드바 호버 열기 ══
+   닫혀있을 때 왼쪽 가장자리에 커서를 올리면 사이드바가 나타납니다 */
+[data-testid="collapsedControl"] {
+    display: block !important;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    position: fixed !important;
+    left: 0; top: 0;
+    width: 48px !important;
+    height: 100vh !important;
+    z-index: 999 !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+[data-testid="collapsedControl"]:hover {
+    opacity: 1 !important;
+    background: rgba(184,98,42,0.08) !important;
+    border-right: 2px solid #B8622A !important;
+}
+[data-testid="collapsedControl"]:hover::after {
+    content: '〉';
+    position: absolute;
+    left: 12px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #B8622A;
+}
+
+/* ══ 헤더 지역 선택 pill ══ */
+.region-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+.region-pill-label { font-size: 11px; font-weight: 700; color: #A8A29E; letter-spacing: 0.08em; text-transform: uppercase; margin-right: 4px; }
+
+/* selectbox를 pill처럼 보이게 */
+div[data-testid="stSelectbox"] > label { display: none !important; }
+div[data-testid="stSelectbox"] > div > div {
+    background: #FEF5EE !important;
+    border: 1.5px solid #B8622A !important;
+    border-radius: 100px !important;
+    color: #B8622A !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    padding: 4px 16px !important;
+    min-height: 0 !important;
+    box-shadow: none !important;
+    cursor: pointer !important;
+}
+div[data-testid="stSelectbox"] > div > div > div {
+    color: #B8622A !important;
+    font-weight: 700 !important;
+    padding: 0 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -272,19 +325,38 @@ with st.sidebar:
 # ─────────────────────────────────────────────
 # 본문 데이터
 # ─────────────────────────────────────────────
+
+# 헤더 + 인라인 지역 선택
+st.markdown('<div class="eyebrow">상권 분석 리포트 · 2019–2025</div>', unsafe_allow_html=True)
+
+h_col, sel_col = st.columns([3, 1])
+with h_col:
+    st.markdown(f"""
+    <div class="ptitle">{selected} <em>베이커리 시장</em></div>
+    <div class="pdesc">서울시 제과점영업 인허가 공공데이터 기반 분석</div>
+    """, unsafe_allow_html=True)
+with sel_col:
+    st.markdown('<div style="padding-top:6px;"></div>', unsafe_allow_html=True)
+    inline_selected = st.selectbox(
+        "지역",
+        df["지역"].tolist(),
+        index=df["지역"].tolist().index(selected),
+        key="inline_region",
+        label_visibility="collapsed",
+    )
+    # 인라인 선택이 사이드바 선택과 다르면 동기화
+    if inline_selected != selected:
+        selected = inline_selected
+        info = df[df["지역"] == selected].iloc[0]
+        cls  = str(info["등급cls"])
+        srs  = float(info["score"])
+
 rt = trend_df[trend_df["지역"] == selected].sort_values("연도").reset_index(drop=True)
 latest = rt[rt["연도"] == 2025].iloc[0]
 prev   = rt[rt["연도"] == 2024].iloc[0]
 open_d  = int(latest["개업"] - prev["개업"])
 close_d = int(latest["폐업"] - prev["폐업"])
 net     = int(latest["개업"] - latest["폐업"])
-
-# 헤더
-st.markdown(f"""
-<div class="eyebrow">상권 분석 리포트 · 2019–2025</div>
-<div class="ptitle">{selected} <em>베이커리 시장</em></div>
-<div class="pdesc">서울시 제과점영업 인허가 공공데이터 기반 분석</div>
-""", unsafe_allow_html=True)
 
 # KPI 카드
 def delta_html(d, reverse=False):
