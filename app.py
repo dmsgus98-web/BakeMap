@@ -106,4 +106,49 @@ filtered_data = [
     if risk_filter[0] <= r['srs'] <= risk_filter[1] and r['active'] >= min_shops
 ]
 
-# 8. 메
+# 8. 메인 화면 출력
+st.markdown(f'<div class="ptitle">{target_gu} <em>상권 상세 보고서</em></div>', unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns(3)
+selected_info = next(r for r in regions_summary if r['region'] == target_gu)
+
+with col1:
+    st.metric("SRS 위험도", f"{selected_info['srs']}점", selected_info['grade'])
+with col2:
+    st.metric("현재 영업중", f"{selected_info['active']}개")
+with col3:
+    st.metric("누적 폐업", f"{selected_info['closed']}개")
+
+# 9. 시각화 (데이터가 있을 때만 실행)
+st.subheader("📊 지역별 비교 분석")
+if filtered_data:
+    df_plot = pd.DataFrame(filtered_data).sort_values("srs", ascending=True)
+    
+    # 막대 그래프 색상 지정
+    colors = {'danger': '#EF4444', 'caution': '#B8622A', 'ok': '#EAB308', 'safe': '#22C55E'}
+    
+    fig = go.Figure(go.Bar(
+        x=df_plot['srs'],
+        y=df_plot['region'],
+        orientation='h',
+        marker_color=[colors[c] for c in df_plot['cls']],
+        text=df_plot['srs']
+    ))
+    fig.update_layout(height=500, margin=dict(l=0, r=0, t=30, b=0))
+    st.plotly_chart(fig, use_container_width=True)
+else:
+    st.info("필터 조건에 맞는 지역이 없습니다. 사이드바에서 범위를 조절해 보세요.")
+
+# 10. 최신 트렌드 차트 (2015~2026)
+st.subheader("📈 연도별 개/폐업 추이")
+gu_data = raw_df[raw_df['자치구'] == target_gu]
+trend = gu_data.groupby('개업연도').size().reset_index(name='개업')
+trend_close = gu_data.groupby('폐업연도').size().reset_index(name='폐업')
+trend_df = pd.merge(trend, trend_close, left_on='개업연도', right_on='폐업연도', how='outer').fillna(0)
+trend_df = trend_df[trend_df['개업연도'].between(2015, 2026)] # 2026년까지 포함
+
+fig_trend = go.Figure()
+fig_trend.add_trace(go.Scatter(x=trend_df['개업연도'], y=trend_df['개업'], name='신규 개업', line=dict(color='#3B82F6', width=3)))
+fig_trend.add_trace(go.Scatter(x=trend_df['개업연도'], y=trend_df['폐업'], name='폐업 발생', line=dict(color='#EF4444', width=3)))
+fig_trend.update_layout(xaxis_title="연도", yaxis_title="매장 수")
+st.plotly_chart(fig_trend, use_container_width=True)
