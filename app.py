@@ -35,6 +35,13 @@ html, body, [class*="css"] {
     background: #FFFFFF !important;
     border-right: 1px solid #E7E4DF;
 }
+/* 사이드바 닫기 버튼 숨김 — 항상 열린 상태 유지 */
+[data-testid="stSidebarCollapseButton"],
+[data-testid="collapsedControl"],
+button[aria-label="Close sidebar"],
+button[aria-label="Open sidebar"] {
+    display: none !important;
+}
 
 /* 크롬 숨김 */
 #MainMenu, header, footer { visibility: hidden; }
@@ -159,71 +166,6 @@ div[data-testid="stSelectbox"] > div > div > div {
 }
 div[data-testid="stSelectbox"] svg { color: #B8622A !important; fill: #B8622A !important; }
 </style>
-""", unsafe_allow_html=True)
-
-# ── JS: 사이드바 닫혔을 때 항상 보이는 열기 버튼 ──
-st.markdown("""
-<div id="bm-btn-host"></div>
-<style>
-#bm-sidebar-open-btn {
-    position: fixed;
-    left: 0; top: 50%;
-    transform: translateY(-50%);
-    width: 28px; height: 56px;
-    background: #FFFFFF;
-    border: 1.5px solid #E7E4DF;
-    border-left: none;
-    border-radius: 0 10px 10px 0;
-    font-size: 22px; font-weight: 700; color: #B8622A;
-    cursor: pointer; z-index: 99999;
-    box-shadow: 2px 0 8px rgba(0,0,0,0.1);
-    display: none;
-    align-items: center; justify-content: center;
-    transition: background .18s, border-color .18s;
-    padding: 0; line-height: 1;
-}
-#bm-sidebar-open-btn:hover {
-    background: #FEF5EE;
-    border-color: #B8622A;
-}
-</style>
-<script>
-(function() {
-    // 버튼 생성
-    var btn = document.createElement('button');
-    btn.id = 'bm-sidebar-open-btn';
-    btn.innerHTML = '&#8250;';
-    btn.title = '사이드바 열기';
-    document.body.appendChild(btn);
-
-    btn.addEventListener('click', function() {
-        // Streamlit collapsed control 버튼 탐색 후 클릭
-        var toggle =
-            document.querySelector('[data-testid="collapsedControl"] button') ||
-            document.querySelector('[data-testid="collapsedControl"]') ||
-            document.querySelector('button[aria-label="Open sidebar"]') ||
-            document.querySelector('section[data-testid="stSidebar"] ~ div button');
-        if (toggle) toggle.click();
-    });
-
-    function update() {
-        var sidebar = document.querySelector('[data-testid="stSidebar"]');
-        if (!sidebar) return;
-        // aria-expanded 또는 translateX로 열림/닫힘 판단
-        var style = window.getComputedStyle(sidebar);
-        var transform = style.transform || style.webkitTransform || '';
-        var isCollapsed = transform.includes('matrix') && transform !== 'none'
-            ? parseFloat(transform.split(',')[4]) < -50
-            : sidebar.getBoundingClientRect().left < -100;
-
-        btn.style.display = isCollapsed ? 'flex' : 'none';
-    }
-
-    // 반복 감지 (Streamlit 리렌더링 대응)
-    setInterval(update, 400);
-    update();
-})();
-</script>
 """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
@@ -370,28 +312,13 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 # ─────────────────────────────────────────────
-# 본문 헤더 + 인라인 지역 선택
+# 본문 헤더
 # ─────────────────────────────────────────────
-st.markdown('<div class="eyebrow">상권 분석 리포트 · 2019–2025</div>', unsafe_allow_html=True)
-
-h_col, sel_col = st.columns([3, 1])
-with h_col:
-    st.markdown(f"""
-    <div class="ptitle">{selected} <em>베이커리 시장</em></div>
-    <div class="pdesc">서울시 제과점영업 인허가 공공데이터 기반 분석</div>
-    """, unsafe_allow_html=True)
-with sel_col:
-    st.markdown('<div style="padding-top:6px;"></div>', unsafe_allow_html=True)
-    # 인라인 선택은 별도 key 사용, on_change로 sel에 반영
-    def _sync_inline():
-        st.session_state["sel"] = st.session_state["sel_inline"]
-    st.selectbox(
-        "지역", region_list,
-        index=region_list.index(selected),
-        key="sel_inline",
-        on_change=_sync_inline,
-        label_visibility="collapsed",
-    )
+st.markdown(f"""
+<div class="eyebrow">상권 분석 리포트 · 2019–2025</div>
+<div class="ptitle">{selected} <em>베이커리 시장</em></div>
+<div class="pdesc">서울시 제과점영업 인허가 공공데이터 기반 분석</div>
+""", unsafe_allow_html=True)
 
 rt = trend_df[trend_df["지역"] == selected].sort_values("연도").reset_index(drop=True)
 latest = rt[rt["연도"] == 2025].iloc[0]
