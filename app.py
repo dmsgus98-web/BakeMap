@@ -1,84 +1,75 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import folium
+from streamlit_folium import st_folium
 import numpy as np
 
-# 1. 페이지 설정
-st.set_page_config(page_title="BakeMap - 베이커리 상권 분석", layout="wide")
+# 페이지 설정
+st.set_page_config(page_title="BakeMap Admin - 분석가용", layout="wide")
 
-# 2. Mock Data (기획안의 '서울시 제과점 인허가 정보' 구조 반영) [cite: 31, 32]
+# 1. Mock Data 생성 (기획안의 위경도 좌표 및 영업 상태 반영) [cite: 32]
 @st.cache_data
-def load_mock_data():
-    districts = ['마포구', '서초구', '강남구', '성동구']
+def get_geo_data():
+    # 서울 주요 베이커리 밀집 지역 샘플 좌표
+    locations = {
+        '연남동': [37.561, 126.924],
+        '성수동': [37.544, 127.056],
+        '한남동': [37.535, 127.001],
+        '방배동': [37.483, 126.991]
+    }
     data = []
-    for dist in districts:
-        for year in range(2020, 2026):
+    for name, coords in locations.items():
+        for i in range(10):  # 지역당 10개의 가상 매장
+            status = np.random.choice(['영업', '폐업'], p=[0.7, 0.3]) # 
             data.append({
-                "자치구": dist,
-                "연도": year,
-                "개업수": np.random.randint(5, 20),
-                "폐업수": np.random.randint(3, 15),
-                "현재매장수": np.random.randint(50, 150),
-                "면적_km2": 15.0  # 가상 면적
+                '상호명': f'{name} 베이커리 {i+1}호점',
+                'lat': coords[0] + np.random.uniform(-0.005, 0.005),
+                'lon': coords[1] + np.random.uniform(-0.005, 0.005),
+                '영업상태': status,
+                'SRS': np.random.randint(10, 90) # [cite: 67]
             })
     return pd.DataFrame(data)
 
-df = load_mock_data()
+df = get_geo_data()
 
-# 3. 사이드바 - 지역 선택 [cite: 55]
-st.sidebar.title("📍 상권 선택")
-selected_district = st.sidebar.selectbox("자치구를 선택하세요", df['자치구'].unique())
+st.title("🥐 BakeMap Interactive Map")
+st.markdown("지도 위 마커에 마우스를 올리거나 클릭하여 상세 정보를 확인하세요.")
 
-# 4. 데이터 가공 및 SRS 알고리즘 반영 [cite: 99, 103]
-dist_df = df[df['자치구'] == selected_district].sort_values('연도')
-latest = dist_df.iloc[-1]
-prev = dist_df.iloc[-2]
+# 2. Folium 지도 생성
+# 서울 중심부 좌표
+m = folium.Map(location=[37.55, 126.98], zoom_start=12, tiles="cartodbpositron")
 
-# 지표 산출
-closure_rate = latest['폐업수'] / (latest['개업수'] + 1) # 최근 폐업률
-density = latest['현재매장수'] / latest['면적_km2']     # 밀집도
-growth_rate = (latest['개업수'] - prev['개업수']) / (prev['개업수'] + 1) # 개업 증가율
+# 3. 데이터 포인트 추가 (Hover & Popup 기능) [cite: 56, 57]
+for _, row in df.iterrows():
+    # 영업 상태에 따른 마커 색상 구분 [cite: 57, 68]
+    color = 'blue' if row['영업상태'] == '영업' else 'red'
+    
+    # Tooltip (커서를 대면 뜨는 정보)
+    tooltip_text = f"<b>{row['상호명']}</b><br>위험도 점수: {row['SRS']}점"
+    
+    # Popup (클릭하면 뜨는 정보)
+    popup_html = f"""
+        <div style='width:150px'>
+            <h4>{row['상호명']}</h4>
+            <p>상태: <b>{row['영업상태']}</b></p>
+            <p>SRS: {row['SRS']}점</p>
+        </div>
+    """
+    
+    folium.CircleMarker(
+        location=[row['lat'], row['lon']],
+        radius=5,
+        color=color,
+        fill=True,
+        fill_color=color,
+        fill_opacity=0.6,
+        tooltip=tooltip_text,
+        popup=folium.Popup(popup_html, max_width=300)
+    ).add_to(m)
 
-# SRS 점수 계산 (Min-Max 정규화 과정은 생략하고 가중치 중심 산출)
-# 실제 구현 시 서울시 전체 데이터 기준 정규화 필요 [cite: 101]
-srs_score = (closure_rate * 40) + (min(density, 100) * 0.35) + (max(growth_rate, 0) * 25)
-srs_score = min(round(srs_score, 1), 100)
+# 4. Streamlit에 지도 렌더링
+st_data = st_folium(m, width=1200, height=600)
 
-# 5. 메인 대시보드
-st.title(f"🥐 BakeMap: {selected_district} 분석 리포트")
-st.markdown("---")
-
-# 핵심 지표 카드 [cite: 59, 60]
-col1, col2, col3, col4 = st.columns(4)
-col1.metric("현재 매장 수", f"{latest['현재매장수']}개")
-col2.metric("최근 개업", f"{latest['개업수']}건", f"{latest['개업수'] - prev['개업수']}건")
-col3.metric("최근 폐업", f"{latest['폐업수']}건")
-
-# 위험도 점수 및 등급 표시 [cite: 105]
-if srs_score <= 30:
-    color, label = "green", "창업 유망"
-elif srs_score <= 50:
-    color, label = "orange", "보통"
-else:
-    color, label = "red", "진입 주의"
-
-col4.markdown(f"**창업 위험도 점수(SRS)**")
-col4.subheader(f":{color}[{srs_score}점 / {label}]")
-
-# 6. 시계열 분석 그래프 [cite: 63]
-st.subheader("📈 연도별 개·폐업 추이")
-fig = px.bar(dist_df, x='연도', y=['개업수', '폐업수'], 
-             barmode='group',
-             color_discrete_map={'개업수': '#3498db', '폐업수': '#e74c3c'})
-st.plotly_chart(fig, use_container_width=True)
-
-# 7. 분석 코멘트 [cite: 65]
-st.subheader("🔍 데이터 인사이트")
-if latest['폐업수'] > latest['개업수']:
-    st.warning(f"현재 {selected_district}은 폐업이 개업을 초과하는 쇠퇴기 국면일 가능성이 높습니다.")
-else:
-    st.success(f"현재 {selected_district}은 신규 진입이 활발한 성장기 상권입니다.")
-
-# 8. 리포트 생성 버튼 (Placeholder) [cite: 74]
-if st.button("📄 분석 리포트 PDF 생성"):
-    st.info("비즈니스 플랜 구독 시 이용 가능한 기능입니다.")
+# 5. 지도 인터랙션 결과 출력 (분석가용 사이드바)
+if st_data['last_object_clicked_tooltip']:
+    st.sidebar.success(f"선택된 매장 정보: {st_data['last_object_clicked_tooltip']}")
