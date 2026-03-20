@@ -132,33 +132,41 @@ html, body, [class*="css"] {
 /* 지도 */
 iframe { border-radius: 12px; }
 
-/* ══ 사이드바 호버 열기 ══
-   닫혀있을 때 왼쪽 가장자리에 커서를 올리면 사이드바가 나타납니다 */
+/* ══ 사이드바 닫혔을 때 열기 버튼 ══ */
 [data-testid="collapsedControl"] {
-    display: block !important;
-    opacity: 0;
-    transition: opacity 0.25s ease;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 1 !important;
     position: fixed !important;
-    left: 0; top: 0;
-    width: 48px !important;
-    height: 100vh !important;
+    left: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 28px !important;
+    height: 56px !important;
     z-index: 999 !important;
-    background: transparent !important;
-    border: none !important;
+    background: #FFFFFF !important;
+    border: 1.5px solid #E7E4DF !important;
+    border-left: none !important;
+    border-radius: 0 10px 10px 0 !important;
     cursor: pointer !important;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.08) !important;
+    transition: background 0.2s, border-color 0.2s !important;
 }
 [data-testid="collapsedControl"]:hover {
-    opacity: 1 !important;
-    background: rgba(184,98,42,0.08) !important;
-    border-right: 2px solid #B8622A !important;
+    background: #FEF5EE !important;
+    border-color: #B8622A !important;
 }
-[data-testid="collapsedControl"]:hover::after {
-    content: '〉';
-    position: absolute;
-    left: 12px; top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
+/* Streamlit 기본 아이콘(햄버거/화살표) 숨기고 커스텀 화살표 표시 */
+[data-testid="collapsedControl"] svg { display: none !important; }
+[data-testid="collapsedControl"]::after {
+    content: '›';
+    font-size: 22px;
+    line-height: 1;
     color: #B8622A;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ══ 헤더 지역 선택 pill ══ */
@@ -174,8 +182,11 @@ div[data-testid="stSelectbox"] > div > div {
     color: #B8622A !important;
     font-weight: 700 !important;
     font-size: 14px !important;
-    padding: 4px 16px !important;
-    min-height: 0 !important;
+    padding: 0 16px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
     box-shadow: none !important;
     cursor: pointer !important;
 }
@@ -183,7 +194,12 @@ div[data-testid="stSelectbox"] > div > div > div {
     color: #B8622A !important;
     font-weight: 700 !important;
     padding: 0 !important;
+    line-height: 1 !important;
+    display: flex !important;
+    align-items: center !important;
 }
+/* 드롭다운 화살표 색상 */
+div[data-testid="stSelectbox"] svg { color: #B8622A !important; fill: #B8622A !important; }
 </style>
 """, unsafe_allow_html=True)
 
